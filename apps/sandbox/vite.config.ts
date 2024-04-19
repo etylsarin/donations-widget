@@ -1,5 +1,6 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
+import cssRawPlugin from 'vite-raw-plugin';
 
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
@@ -17,7 +18,12 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [nxViteTsPaths()],
+  plugins: [
+    nxViteTsPaths(),
+    cssRawPlugin({
+      fileRegex: /\.css$/
+    }),
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {

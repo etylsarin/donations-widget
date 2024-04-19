@@ -1,0 +1,10 @@
+#widget-wrapper { font-family: "Gill Sans", sans-serif; }
+input { width: 4em; }
+fieldset { border: 0; }
+label:has(input[type="radio"]) { display: inline-block; padding: 5px 10px; margin: 4px; border: 1px solid grey; cursor: pointer; }
+label:has(input:checked) { border-color: orange; }
+label input[type="radio"] { display: none; }
+button { cursor: pointer; }
+button[type="submit"] { font-size: 20px; width: 100%; padding: 10px; background: orange; border: 1px solid grey; font-weight: 600; }
+#contributions { font-size: 40px; font-weight: 600; margin: 0; }
+#info { background: #eee; padding: 10px 20px; margin-bottom: 20px;}

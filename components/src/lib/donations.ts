@@ -1,127 +1,212 @@
 import { camelCase } from 'lodash/fp';
 
-export type DonationProps = 'startDate' | 'totalContribution' | 'totalContributors' | 'currenncy' | 'contributionOptions' | 'lang'
+// import content from './donations.css';
 
-export class Donations extends HTMLElement {
+export type DonationsProps = 'start-date' | 'total-contribution' | 'total-contributors' | 'currenncy' | 'contribution-options' | 'lang'
+
+export enum Lang {
+  CS_CZ = 'cs-CZ',
+  EN_US = 'en-US',
+}
+
+export interface DonationsState {
   showCustomAmount: boolean;
-  isRepetitive: string;
-  customAmount: string;
-  startDate: string | undefined;
-  totalContribution: string | undefined;
-  totalContributors: string | undefined;
+  isRepetitive?: boolean;
+  amount: number;
+  startDate?: string;
+  totalContribution?: string;
+  totalContributors?: string;
   contributionOptions: string[];
   currenncy: string;
-  override lang: string;
+  lang: Lang;
+}
+
+export class Donations extends HTMLElement {
+  state: DonationsState;
+  shadow: ShadowRoot | null;
 
   constructor() {
     super();
-    this.isRepetitive = 'false';
-    this.customAmount = '0';
-    this.showCustomAmount = true;
-    this.contributionOptions = [];
-    this.currenncy = 'Kč';
-    this.lang = 'cz';
+    this.state = {
+      showCustomAmount: false,
+      amount: 0,
+      contributionOptions: [],
+      currenncy: 'Kč',
+      lang: Lang.CS_CZ,
+    };
+    this.shadow = null;
   }
 
   // component attributes
   static get observedAttributes() {
-    return ['start-date', 'total-contribution', 'total-contributors', 'currenncy', 'contribution-options', 'lang'];
+    const attributes: DonationsProps[] = ['start-date', 'total-contribution', 'total-contributors', 'currenncy', 'contribution-options', 'lang'];
+    return attributes;
   }
 
-  static formatStringNumber = (n: string) => n.replace(/(?<!\.\d+)\B(?=(\d{3})+\b)/g, " ").replace(/(?<=\.(\d{3})+)\B/g, " ")
+  static formatStringNumber = (n: string) => n.replace(/(?<!\.\d+)\B(?=(\d{3})+\b)/g, " ").replace(/(?<=\.(\d{3})+)\B/g, " ");
 
-  attributeChangedCallback(property: string, oldValue: string, newValue: string) {
+  static getTranslations = (lang: Lang) => {
+    const translations = {
+      [Lang.CS_CZ]: {
+        infoStartDate: (startDate: string) => `vybíráme od ${startDate}`,
+        infoContributors: (totalContributors: string) => `přispělo ${totalContributors} lidí`,
+        repetitionOnce: 'jednorázově',
+        repetitionMonthly: 'měsíčně',
+        presetOptionsLegend: (currenncy: string) => `Přispět v ${currenncy}:`,
+        cunstomAmountLabel: 'Napište prosím částku, kterou chcete přispět.',
+        customAmountButton: 'Jiná částka',
+        donateButton: 'Darovat'
+      },
+      [Lang.EN_US]: {
+        infoStartDate: (startDate: string) => `campaign started on ${startDate}`,
+        infoContributors: (totalContributors: string) => `${totalContributors} people donated`,
+        repetitionOnce: 'once',
+        repetitionMonthly: 'monthly',
+        presetOptionsLegend: (currenncy: string) => `Donate in ${currenncy}:`,
+        cunstomAmountLabel: 'Fill in how much you want to donate.',
+        customAmountButton: 'Other Amount',
+        donateButton: 'Donate'
+      },
+    };
+    return translations[lang];
+  };
+
+  static getHTML = ({ showCustomAmount, isRepetitive, startDate, totalContribution, currenncy, totalContributors, contributionOptions, amount, lang }: DonationsState) => {
+    const t = Donations.getTranslations(lang);
+    return (
+    `
+    <style>
+      #widget-wrapper { font-family: "Gill Sans", sans-serif; }
+      input { width: 4em; }
+      fieldset { border: 0; }
+      label:has(input[type="radio"]) { display: inline-block; padding: 5px 10px; margin: 4px; border: 1px solid grey; cursor: pointer; }
+      label:has(input:checked) { border-color: orange; }
+      label input[type="radio"] { display: none; }
+      button { cursor: pointer; }
+      button[type="submit"] { font-size: 20px; width: 100%; padding: 10px; background: orange; border: 1px solid grey; font-weight: 600; }
+      #contributions { font-size: 40px; font-weight: 600; margin: 0; }
+      #info { background: #eee; padding: 10px 20px; margin-bottom: 20px;}
+    </style>
+    <div id="widget-wrapper">
+      <div id="info">
+        ${startDate ? `<p id="date">${t.infoStartDate(startDate)}</p>` : ''}
+        ${totalContribution ? `<p id="contributions">${totalContribution} ${currenncy}</p>` : ''}
+        ${totalContributors ? `<p id="contributors">${t.infoContributors(totalContributors)}</p>` : ''}
+      </div>
+      <form id="contribution">
+        <fieldset id="repetition">
+          <label>${t.repetitionOnce}<input type="radio" name="repetition" value="false" ${isRepetitive === false ? 'checked="true"' : ''} /></label>
+          <label>${t.repetitionMonthly}<input type="radio" name="repetition" value="true" ${isRepetitive === true ? 'checked="true"' : ''} /></label>
+        </fieldset>
+        <fieldset>
+          <legend>${t.presetOptionsLegend(currenncy)}</legend>
+          ${contributionOptions.reduce((prev, curr) => {
+            const input = `<label>${curr}<input type="radio" name="options" value="${curr}" ${parseInt(curr, 10) === amount ? 'checked="true"' : ''} /></label>`;
+            return prev + input;
+          }, '')}
+        </fieldset>
+        <fieldset id="toggle">
+          ${showCustomAmount ?
+            `<label>${t.cunstomAmountLabel}
+              <input id="amount" name="amount" type="text" placeholder="${currenncy}" />
+            </label>`
+            :
+            `<button type="button" id="customFieldToggle">${t.customAmountButton}</button>`
+          }
+        </fieldset>
+        <button type="submit">${t.donateButton}</button>
+      </form>
+    </div>`
+  );
+  };
+
+  attributeChangedCallback(property: DonationsProps, oldValue: string, newValue: string) {
     if (oldValue === newValue) { return }
+    const newState: { [key: string]: any } = {};
     switch(property) {
       case 'contribution-options':
-        this.contributionOptions = newValue.split(',');
+        newState['contributionOptions'] = newValue.split(',');
+        break;
+      case 'start-date':
+        newState['startDate'] = new Date(newValue).toLocaleDateString();
+        break;
+      case 'total-contribution':
+        newState['totalContribution'] = Donations.formatStringNumber(newValue);
         break;
       default:
-        this[camelCase(property) as Exclude<DonationProps, 'contributionOptions'>] = newValue;
+        newState[camelCase(property)] = newValue;
     }
+    this.state = {
+      ...this.state,
+      ...newState,
+    };
   }
 
   setIsRepetitive(v: string) {
-    this.isRepetitive = v;
+    this.state.isRepetitive = v === 'true';
   }
 
   setCustomAmount(v: string) {
-    this.customAmount = v;
+    this.state.amount = parseInt(v, 10);
   }
 
   setCustomAmountToggle(v: boolean) {
-    this.showCustomAmount = v;
+    this.state.showCustomAmount = v;
+  }
+
+  resetRadios() {
+    const selectedRadio = this.shadow?.querySelector('input[type="radio"]:checked');
+    if (selectedRadio) {
+      (selectedRadio as HTMLInputElement).checked = false;
+    }
+  }
+
+  render() {
+    if (this.shadow) {
+      this.shadow.innerHTML = Donations.getHTML(this.state);
+    }
   }
 
   connectedCallback() {
-
-    const shadow = this.attachShadow({ mode: 'closed' });
-
-    shadow.innerHTML = `
-      <style>
-        #widget-wrapper { font-family: "Gill Sans", sans-serif; }
-        input { width: 4em; }
-        fieldset { border: 0; }
-        label:has(input[type="radio"]) { display: inline-block; padding: 5px 10px; margin: 4px; border: 1px solid grey; cursor: pointer; }
-        label:has(input:checked) { border-color: orange; }
-        label input[type="radio"] { display: none; }
-        button { cursor: pointer; }
-        button[type="submit"] { font-size: 20px; width: 100%; padding: 10px; background: orange; border: 1px solid grey; font-weight: 600; }
-        #contributions { font-size: 40px; font-weight: 600; margin: 0; }
-        #info { background: #eee; padding: 10px 20px; margin-bottom: 20px;}
-        #toggle label { display: none; }
-        #toggle.showInput label { display: inline-block; }
-        #toggle.showInput button { display: none; }
-      </style>
-      <div id="widget-wrapper">
-        <div id="info">
-          ${this.startDate ? `<p id="date">vybíráme od ${new Date(this.startDate).toLocaleDateString('cz-CS').split('/').join('.')}</p>` : ''}
-          ${this.totalContribution ? `<p id="contributions">${Donations.formatStringNumber(this.totalContribution)} ${this.currenncy}</p>` : ''}
-          ${this.totalContributors ? `<p id="contributors">přispělo ${this.totalContributors} lidí</p>` : ''}
-        </div>
-        <form id="contribution">
-          <fieldset id="repetition">
-            <label>jednorázově<input type="radio" name="repetition" value="false" /></label>
-            <label>měsíčně<input type="radio" name="repetition" value="true" /></label>
-          </fieldset>
-          <fieldset>
-            <legend>Přispět v Kč:</legend>
-            ${this.contributionOptions.reduce((prev, curr) => {
-              const input = `<label>${curr}<input type="radio" name="options" value="${curr}" /></label>`;
-              return prev + input;
-            }, '')}
-          </fieldset>
-          <fieldset id="toggle">
-            <button type="button" id="customFieldToggle">Jiná částka</button>
-            <label>Napište prosím částku, kterou chcete přispět.
-              <input id="amount" name="amount" type="text" placeholder="${this.currenncy}" />
-            </label>
-          </fieldset>
-          <button type="submit">Darovat${this.customAmount > '0' ? this.customAmount : ""}</button>
-        </form>
-      </div>`;
+    this.shadow = this.attachShadow({ mode: 'closed' });
+    this.render();
 
     // monitor input values
-    shadow.querySelector('#amount')?.addEventListener('input', (e) => {
-      this.setCustomAmount((e.target as HTMLInputElement).value);
-      const input = shadow.querySelector('input[type="radio"]:checked') as HTMLInputElement;
-      if (input) {
-        input.checked = false;
+    this.shadow.addEventListener('click', (e) => {
+      switch ((e.target as HTMLElement).id) {
+        case 'customFieldToggle':
+          this.setCustomAmountToggle(true);
+          this.render();
+          break;
       }
     });
-    shadow.querySelectorAll('input[name="repetition"]')?.forEach(item => item.addEventListener('change', (e) => {
-      this.setIsRepetitive((e.target as HTMLInputElement).value);
-    }));
-    shadow.querySelectorAll('input[name="options"]')?.forEach(item => item.addEventListener('change', (e) => {
-      this.setCustomAmount((e.target as HTMLInputElement).value);
-    }));
-    shadow.querySelector('#customFieldToggle')?.addEventListener('click', () => {
-      this.setCustomAmountToggle(true);
-      shadow.querySelector('#toggle')?.setAttribute('class', 'showInput');
-    });
-    shadow.querySelector('#contribution')?.addEventListener('submit', (e) => {
+    this.shadow.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log(this.customAmount, this.isRepetitive);
+      switch ((e.target as HTMLElement).id) {
+        case 'contribution':
+          console.log(this.state.amount, this.state.isRepetitive);
+          break;
+      }
+    });
+    this.shadow.addEventListener('input', (e) => {
+      switch ((e.target as HTMLElement).id) {
+        case 'amount':
+          this.setCustomAmount((e.target as HTMLInputElement).value);
+          this.resetRadios();
+          break;
+      }
+    });
+    this.shadow.addEventListener('change', (e) => {
+      switch ((e.target as HTMLInputElement).name) {
+        case 'repetition':
+          this.setIsRepetitive((e.target as HTMLInputElement).value);
+          break;
+        case 'options':
+          this.setCustomAmount((e.target as HTMLInputElement).value);
+          this.setCustomAmountToggle(false);
+          this.render();
+          break;
+      }
     });
   }
 }
