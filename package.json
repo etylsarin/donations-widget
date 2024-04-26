@@ -2,10 +2,11 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "deploy:sandbox": "gh-pages -d dist/apps/sandbox"
+  },
   "private": true,
   "dependencies": {
-    "lodash": "^4.17.21",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-cypress": "^2.13.4",
+    "gh-pages": "^6.1.1",
     "jest": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "jsdom": "~22.1.0",

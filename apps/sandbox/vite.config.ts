@@ -8,6 +8,8 @@ export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/sandbox',
 
+  base: '/donations-widget/',
+
   server: {
     port: 4200,
     host: 'localhost',
