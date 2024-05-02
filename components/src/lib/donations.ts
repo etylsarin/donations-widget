@@ -349,7 +349,7 @@ export class Donations extends HTMLElement {
       e.preventDefault();
       switch ((e.target as HTMLElement).id) {
         case 'contribution':
-          console.log(this.state.amount, this.state.isRepetitive);
+          window.open(`https://www.darujme.cz/darovat/1200490?portalWidget=1&frequency=${this.state.isRepetitive ? 'monthly' : 'once'}&amount=${this.state.amount}`);
           break;
       }
     });
