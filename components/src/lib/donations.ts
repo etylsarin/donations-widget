@@ -40,7 +40,7 @@ export interface DonationsState {
 export class Donations extends HTMLElement {
   state: DonationsState;
   shadow: ShadowRoot | null;
-  logo: string;
+  logo: string | undefined;
 
   constructor() {
     super();
@@ -77,6 +77,8 @@ export class Donations extends HTMLElement {
         donateButton: 'Darovat',
         currencySymbol: CurrencySymbol.CZK,
         currencyCode: CurrencyCode.CZK,
+        successMessage: 'Děkujeme za váš příspěvek pro HappyHearts Czech Republic! Vaši platbu jsme přijali v pořádku.',
+        errorMessage: 'Nepodařilo se dokončit platbu. Zkuste to znovu.',
       },
       [Lang.EN_US]: {
         infoStartDate: (startDate: Date) => `campaign started on ${startDate.toLocaleDateString(lang)}`,
@@ -93,6 +95,8 @@ export class Donations extends HTMLElement {
         donateButton: 'Donate',
         currencySymbol: CurrencySymbol.USD,
         currencyCode: CurrencyCode.USD,
+        successMessage: 'Thank you for supporting HappyHearts Czech Republic! Your donation was received.',
+        errorMessage: 'We could not process your donation. Try again.',
       },
     };
     return translations[lang];
@@ -186,7 +190,6 @@ export class Donations extends HTMLElement {
                   linear-gradient(#ddd, #ddd) border-box;
       border-radius: 32em;
       border: 2px solid transparent;
-      display: inline-block;
       padding: 12px 24px;
       cursor: pointer;
       font-size: 20px;
@@ -198,6 +201,7 @@ export class Donations extends HTMLElement {
       flex-grow: 1;
       text-align: center;
       transition: flex-basis 100ms ease-out;
+      position: relative;
     }
     .button:has(input:checked) {
       color: #F26538;
@@ -213,7 +217,10 @@ export class Donations extends HTMLElement {
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+CiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRjI2NTM4IiBkPSJNNS45IDguMSA0LjUgOS41IDkgMTQgMTkgNGwtMS40LTEuNEw5IDExLjIgNS45IDguMVpNMTggMTBjMCA0LjQtMy42IDgtOCA4cy04LTMuNi04LTggMy42LTggOC04Yy44IDAgMS41LjEgMi4yLjNMMTMuOC43QzEyLjYuMyAxMS4zIDAgMTAgMCA0LjUgMCAwIDQuNSAwIDEwczQuNSAxMCAxMCAxMCAxMC00LjUgMTAtMTBoLTJaIi8+Cjwvc3ZnPgo=);
   }
   .button input[type="radio"] {
-      display: none;
+      opacity: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-100%);
   }
   #customFieldToggle {
     width: 100%;
@@ -303,7 +310,7 @@ export class Donations extends HTMLElement {
             `<fieldset id="options">
               <legend>${t.presetOptionsLegend}</legend>
               ${contributionOptions.reduce((prev, curr) => {
-                const input = `<label class="button">${t.contributionOption(formatStringNumber(curr))}<input type="radio" name="options" value="${curr}" ${parseInt(curr, 10) === amount ? 'checked="true"' : ''} /></label>`;
+                const input = `<label class="button">${t.contributionOption(formatStringNumber(curr))}<input type="radio" name="options" value="${curr}" ${parseInt(curr, 10) === amount ? 'checked="true"' : ''} ${!showCustomAmount ? "required" : ""} /></label>`;
                 return prev + input;
               }, '')}
             </fieldset>`
@@ -312,7 +319,7 @@ export class Donations extends HTMLElement {
         <fieldset id="toggle">
             ${showCustomAmount ?
               `<label class="button">${t.cunstomAmountLabel}
-                <input id="amount" name="amount" type="number" min="1" placeholder="${t.customAmountPlaceholder}" />
+                <input id="amount" name="amount" type="number" min="1" placeholder="${t.customAmountPlaceholder}" ${showCustomAmount ? "required" : ""} />
               </label>`
               :
               `<button class="button" type="button" id="customFieldToggle">${t.customAmountButton}</button>`
@@ -320,8 +327,8 @@ export class Donations extends HTMLElement {
           </fieldset>
           <button type="submit" id="submit">${t.donateButton}</button>
         </form>
-        ${isDone ? `<div id="response" class="success">Thank you for supporting HappyHearts Czech Republic! Your donation was received.</div>` : ''}
-        ${isError ? `<div id="response" class="error">We could not process your donation. Try again.</div>` : ''}
+        ${isDone ? `<div id="response" class="success">${t.successMessage}</div>` : ''}
+        ${isError ? `<div id="response" class="error">${t.errorMessage}</div>` : ''}
       </div>
       <div id="footer">
         <img src="${logo}" />
@@ -334,7 +341,6 @@ export class Donations extends HTMLElement {
   attributeChangedCallback(property: DonationsProps, oldValue: string, newValue: string) {
     if (oldValue === newValue) { return }
     const newState: { [key: string]: any } = {};
-    console.log(property, newValue);
     switch(property) {
       case 'contribution-options':
         newState['contributionOptions'] = newValue.split(',');
@@ -393,6 +399,7 @@ export class Donations extends HTMLElement {
   }
 
   async sendDonation() {
+    const t = Donations.getTranslations(this.state.lang);
     const response = await fetch("https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration/hh_set_config", {
       method: "POST",
       headers: {
@@ -401,14 +408,13 @@ export class Donations extends HTMLElement {
       body: JSON.stringify({
         parameters: {
           amount: this.state.amount * 100,
-          currency: 203,
+          currency: t.currencyCode,
           orderNumber: generateUniqueNum(),
           redirect_url: window.location.href.split('?')[0],
         },
       }),
     });
     const url = await response.text();
-    console.log(url);
     window.location.replace(url);
   }
 
