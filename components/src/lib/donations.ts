@@ -319,7 +319,7 @@ export class Donations extends HTMLElement {
         <fieldset id="toggle">
             ${showCustomAmount ?
               `<label class="button">${t.cunstomAmountLabel}
-                <input id="amount" name="amount" type="number" min="1" placeholder="${t.customAmountPlaceholder}" ${showCustomAmount ? "required" : ""} />
+                <input id="amount" name="amount" type="number" min="1" max="1000000" step="1" placeholder="${t.customAmountPlaceholder}" ${showCustomAmount ? "required" : ""} />
               </label>`
               :
               `<button class="button" type="button" id="customFieldToggle">${t.customAmountButton}</button>`
@@ -451,6 +451,13 @@ export class Donations extends HTMLElement {
       switch ((e.target as HTMLElement).id) {
         case 'contribution':
           this.sendDonation();
+          break;
+      }
+    });
+    this.shadow.addEventListener('keydown', (e) => {
+      switch ((e.target as HTMLElement).id) {
+        case 'amount':
+          ["e", "E", "+", "-"].includes((e as KeyboardEvent).key) && e.preventDefault();
           break;
       }
     });
