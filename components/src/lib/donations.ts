@@ -420,11 +420,13 @@ export class Donations extends HTMLElement {
 
   render() {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('PRCODE')) {
-      this.state.isError = true;
-    }
-    if (params.get('ABC')) {
-      this.state.isDone = true;
+    const resultText = params.get('RESULTTEXT');
+    if (resultText) {
+      if (resultText === 'OK') {
+        this.state.isDone = true;
+      } else {
+        this.state.isError = true;
+      }
     }
     if (this.shadow) {
       this.shadow.innerHTML = Donations.getHTML(this.state);
