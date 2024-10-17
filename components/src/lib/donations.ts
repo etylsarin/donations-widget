@@ -1,7 +1,7 @@
 // import css from './donations.css?raw';
 
 import { camelize, formatStringNumber, generateUniqueNum } from "./utils";
-import { logo } from './logo';
+import { logo, checkmark, cross } from './images';
 
 export const attributes = ['start-date', 'total-contribution', 'total-contributors', 'currency', 'contribution-options', 'lang', 'recurrent'];
 
@@ -76,7 +76,7 @@ export class Donations extends HTMLElement {
         recurrent: 'měsíčně',
         presetOptionsLegend: 'Přispět',
         cunstomAmountLabel: 'Kolik chcete přispět?',
-        contributionOption: (amount: string) => `${amount} ${translations[lang].currencySymbol}`,
+        contributionOption: (amount: string) => `${amount}&nbsp;${translations[lang].currencySymbol}`,
         customAmountPlaceholder: CurrencySymbol.CZK,
         customAmountButton: 'Jiná částka',
         donateButton: 'Darovat',
@@ -135,6 +135,7 @@ export class Donations extends HTMLElement {
       border-radius: 24px;
       padding: 32px;
       box-shadow: 0px 6px 14px 0px rgba(0,0,0,0.2);
+      position: relative;
     }
     #footer {
       padding: 24px 32px;
@@ -219,7 +220,7 @@ export class Donations extends HTMLElement {
     display: inline-block;
     width: 20px;
     height: 20px;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+CiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRjI2NTM4IiBkPSJNNS45IDguMSA0LjUgOS41IDkgMTQgMTkgNGwtMS40LTEuNEw5IDExLjIgNS45IDguMVpNMTggMTBjMCA0LjQtMy42IDgtOCA4cy04LTMuNi04LTggMy42LTggOC04Yy44IDAgMS41LjEgMi4yLjNMMTMuOC43QzEyLjYuMyAxMS4zIDAgMTAgMCA0LjUgMCAwIDQuNSAwIDEwczQuNSAxMCAxMCAxMCAxMC00LjUgMTAtMTBoLTJaIi8+Cjwvc3ZnPgo=);
+    background-image: url(${checkmark});
   }
   .button input[type="radio"] {
       opacity: 0;
@@ -283,18 +284,43 @@ export class Donations extends HTMLElement {
       flex-basis: 45%;
     }
     #response {
-      margin-top: 32px;
-      border: 2px solid transparent;
-      border-radius: 12px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: calc(100% - 32px);
+      height: calc(100% - 32px);
+      background-color: rgba(255,255,255,0.7);
       padding: 16px;
       font-size: 20px;
+      box-sizing: content-box;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 12px;
+    }
+    #response::before, #response::after {
+      content: '';
+      display: inline-block;
+      width: 64px;
+      height: 64px;
     }
     #response.success {
-      border-color: #30D053;
+      color: #30D053;
+    }
+    #response.success::before {
+      background: #30D053;
+      mask: url(${checkmark});
     }
     #response.error {
-      border-color: #F23838;
       color: #F23838;
+    }
+    #response.error::before {
+      background: #F23838;
+      mask: url(${cross});
     }
     .loader {
       width: 44px;
