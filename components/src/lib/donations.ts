@@ -1,7 +1,7 @@
 // import css from './donations.css?raw';
 
 import { camelize, formatStringNumber, generateUniqueNum } from "./utils";
-import { logo, checkmark, cross } from './images';
+import { hh_logo, checkmark, cross, ma_logo, visa_logo, ae_logo, dsc_logo, apay_logo, gpay_logo } from './images';
 
 export const attributes = ['start-date', 'total-contribution', 'total-contributors', 'currency', 'contribution-options', 'lang', 'recurrent'];
 
@@ -382,9 +382,17 @@ export class Donations extends HTMLElement {
         </form>
         ${isDone ? `<div id="response" class="success">${t.successMessage}</div>` : ''}
         ${isError ? `<div id="response" class="error">${t.errorMessage}</div>` : ''}
+        <div class="logos">
+          <img src="${ma_logo}" />
+          <img src="${visa_logo}" />
+          <img src="${ae_logo}" />
+          <img src="${dsc_logo}" />
+          <img src="${apay_logo}" />
+          <img src="${gpay_logo}" />
+        </div>
       </div>
       <div id="footer">
-        <img src="${logo}" />
+        <img src="${hh_logo}" />
         <p>happyheartsczech.org</p>
       </div>
     </div>`
