@@ -140,17 +140,31 @@ export class Donations extends HTMLElement {
     #footer {
       padding: 24px 32px;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
     }
-    #footer img {
+    #footer .logo {
       width: 184px;
       height: 61px;
     }
-    #footer p {
+    #footer .url {
       color: #F26538;
       font-weight: 500;
       font-size: 14px;
+    }
+    #footer .author {
+      width: 100%;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      gap: 10px;
+    }
+    #footer .author img {
+      height: 30px;
     }
     #info {
       margin-bottom: 50px;
@@ -332,6 +346,13 @@ export class Donations extends HTMLElement {
       box-sizing: border-box;
       animation: rotation 1s linear infinite;
     }
+    .logos {
+      margin-top: 32px;
+      text-align: center;
+    }
+    .logos img {
+      height: 24px;
+    }
     @keyframes rotation {
       0% {
         transform: rotate(0deg);
@@ -383,17 +404,18 @@ export class Donations extends HTMLElement {
         ${isDone ? `<div id="response" class="success">${t.successMessage}</div>` : ''}
         ${isError ? `<div id="response" class="error">${t.errorMessage}</div>` : ''}
         <div class="logos">
-          <img src="${ma_logo}" />
-          <img src="${visa_logo}" />
-          <img src="${ae_logo}" />
-          <img src="${dsc_logo}" />
-          <img src="${apay_logo}" />
-          <img src="${gpay_logo}" />
+          <img src="${ma_logo}" alt="Mastercard" />
+          <img src="${visa_logo}" alt="Visa" />
+          <img src="${ae_logo}" alt="American Express" />
+          <img src="${dsc_logo}" alt="Discovery" />
+          <img src="${apay_logo}" alt="Apple Pay" />
+          <img src="${gpay_logo}" alt="Google Pay" />
         </div>
       </div>
       <div id="footer">
-        <img src="${hh_logo}" />
-        <p>happyheartsczech.org</p>
+        <img class="logo" src="${hh_logo}" alt="Happy Hearts" />
+        <p class="url">happyheartsczech.org</p>
+        <p class="author">Brought to you by <img src="${ma_logo}" alt="Mastercard" /></p>
       </div>
     </div>`
   );
