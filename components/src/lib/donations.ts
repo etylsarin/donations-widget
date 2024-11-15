@@ -1,7 +1,7 @@
 // import css from './donations.css?raw';
 
 import { camelize, formatStringNumber, generateUniqueNum } from "./utils";
-import { hh_logo, checkmark, cross, ma_logo, visa_logo, ae_logo, dsc_logo, apay_logo, gpay_logo } from './images';
+import { hh_logo, checkmark, cross, ma_logo, visa_logo, ae_logo, apay_logo, gpay_logo } from './images';
 
 export const attributes = ['start-date', 'total-contribution', 'total-contributors', 'currency', 'contribution-options', 'lang', 'recurrent'];
 
@@ -407,7 +407,6 @@ export class Donations extends HTMLElement {
           <img src="${ma_logo}" alt="Mastercard" />
           <img src="${visa_logo}" alt="Visa" />
           <img src="${ae_logo}" alt="American Express" />
-          <img src="${dsc_logo}" alt="Discovery" />
           <img src="${apay_logo}" alt="Apple Pay" />
           <img src="${gpay_logo}" alt="Google Pay" />
         </div>
