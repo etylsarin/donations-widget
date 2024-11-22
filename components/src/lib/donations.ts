@@ -84,6 +84,7 @@ export class Donations extends HTMLElement {
         currencyCode: CurrencyCode.CZK,
         successMessage: 'Děkujeme za váš příspěvek pro HappyHearts Czech Republic! Vaši platbu jsme přijali v pořádku.',
         errorMessage: 'Nepodařilo se dokončit platbu. Zkuste to znovu.',
+        newsletterOptIn: 'Přihlaste se k odběru novinek',
       },
       [Lang.EN_US]: {
         infoStartDate: (startDate: Date) => `campaign started on ${startDate.toLocaleDateString(lang)}`,
@@ -102,6 +103,7 @@ export class Donations extends HTMLElement {
         currencyCode: CurrencyCode.USD,
         successMessage: 'Thank you for supporting HappyHearts Czech Republic! Your donation was received.',
         errorMessage: 'We could not process your donation. Try again.',
+        newsletterOptIn: 'Opt in to receive marketing news',
       },
     };
     return translations[lang];
@@ -154,7 +156,6 @@ export class Donations extends HTMLElement {
       font-size: 14px;
     }
     #footer .author {
-      width: 100%;
       text-align: center;
       display: inline-flex;
       align-items: center;
@@ -166,12 +167,19 @@ export class Donations extends HTMLElement {
     #footer .author img {
       height: 30px;
     }
+    #footer .logo ~ .author {
+      width: 100%;
+    }
     #info {
       margin-bottom: 50px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       gap: 20px;
+    }
+    #info .logo {
+      width: 50%;
+      margin: 0 auto;
     }
     p {
       margin: 0;
@@ -197,7 +205,7 @@ export class Donations extends HTMLElement {
       padding: 0;
       display: flex;
       gap: 12px;
-      margin-bottom: 36px;
+      margin-bottom: 24px;
     }
     legend {
       font-size: 20px;
@@ -288,9 +296,6 @@ export class Donations extends HTMLElement {
     #repetition .button:has(input:checked) {
       flex-basis: 60%;
     }
-    #options {
-      margin-bottom: 24px;
-    }
     #options .button {
       flex-basis: 33%;
     }
@@ -353,6 +358,25 @@ export class Donations extends HTMLElement {
     .logos img {
       height: 24px;
     }
+    .opt-in {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 16px;
+    }
+    .opt-in input {
+      opacity: 0;
+    }
+    .opt-in::before {
+      content: '';
+      display: inline-block;
+      margin-right: 5px;
+      border: 1px solid orange;
+      width: 24px;
+      height: 24px;
+    }
+    .opt-in:has(input:checked)::before {
+      content: '✔';
+    }
     @keyframes rotation {
       0% {
         transform: rotate(0deg);
@@ -365,13 +389,15 @@ export class Donations extends HTMLElement {
     <div id="widget-wrapper">
       <div id="body">
         <div id="info">
-          <div>  
+          ${totalContribution ? `
+          <div>
             ${totalContribution ? `<p id="contributions">${t.infoContributions(totalContribution)}</p>` : ''}
             ${startDate ? `<p id="date">${t.infoStartDate(startDate)}</p>` : ''}
           </div>
           <div>
             ${totalContributors ? `<p id="contributors">${t.infoContributors(totalContributors)}</p><p>${t.labelContributors}</p>` : ''}
           </div>
+          ` : `<img class="logo" src="${hh_logo}" alt="Happy Hearts" />`}
         </div>
         <form id="contribution">
           ${showRecurrent ?
@@ -410,9 +436,12 @@ export class Donations extends HTMLElement {
           <img src="${apay_logo}" alt="Apple Pay" />
           <img src="${gpay_logo}" alt="Google Pay" />
         </div>
+        <label class="opt-in"><input type="checkbox" name="marketing" value="opt-in" /> ${t.newsletterOptIn}</label>
       </div>
       <div id="footer">
-        <img class="logo" src="${hh_logo}" alt="Happy Hearts" />
+        ${totalContribution ? 
+        `<img class="logo" src="${hh_logo}" alt="Happy Hearts" />`
+        : ''}
         <p class="url">happyheartsczech.org</p>
         <p class="author">Brought to you by <img src="${ma_logo}" alt="Mastercard" /></p>
       </div>
