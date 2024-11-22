@@ -362,20 +362,30 @@ export class Donations extends HTMLElement {
       display: inline-block;
       margin-top: 24px;
       font-size: 16px;
+      position: relative;
+      display: flex;
+      align-items: center;
     }
     .opt-in input {
+      cursor: pointer;
       opacity: 0;
+      position: absolute;
+      left: 0;
     }
     .opt-in::before {
       content: '';
+      color: #fff;
       display: inline-block;
-      margin-right: 5px;
+      margin-right: 10px;
       border: 1px solid orange;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
+      text-align: center;
+      border-radius: 2px;
     }
     .opt-in:has(input:checked)::before {
       content: '✔';
+      background-color: #F26538;
     }
     @keyframes rotation {
       0% {
