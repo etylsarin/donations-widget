@@ -541,11 +541,11 @@ export class Donations extends HTMLElement {
       }),
     });
     const url = await response.text();
-    window.location.replace(url);
+    window.parent.location.replace(url);
   }
 
   render() {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.parent.location.search);
     const resultText = params.get('RESULTTEXT');
     if (resultText) {
       if (resultText === 'OK') {
