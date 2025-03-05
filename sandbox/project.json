@@ -1,0 +1,79 @@
+{
+  "name": "sandbox",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "sandbox/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["sandbox/**/*.{ts,spec.ts,tsx}"]
+      }
+    },
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/sandbox"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "sandbox:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "sandbox:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "sandbox:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "dependsOn": ["build"],
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "sandbox:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "sandbox:build:development"
+        },
+        "production": {
+          "buildTarget": "sandbox:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../coverage/sandbox"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "sandbox:build",
+        "spa": true
+      }
+    }
+  }
+}

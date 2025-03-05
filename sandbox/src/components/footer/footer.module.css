@@ -1,0 +1,31 @@
+.footer {
+  padding: 24px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer .logo {
+  width: 184px;
+  height: 61px;
+}
+.footer .url {
+  color: #F26538;
+  font-weight: 500;
+  font-size: 14px;
+}
+.footer .author {
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  gap: 10px;
+}
+.footer .author img {
+  height: 30px;
+}
+.footer .logo ~ .author {
+  width: 100%;
+}

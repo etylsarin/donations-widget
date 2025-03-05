@@ -1,0 +1,278 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.4.4",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "7663861978715868291"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "16877376182141465221"
+      },
+      {
+        "file": ".npmrc",
+        "hash": "8564712037177136247"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "16448050467312557263"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "4637156562308165301"
+      },
+      {
+        "file": "README.md",
+        "hash": "13343957463933658431"
+      },
+      {
+        "file": "eslint.config.mjs",
+        "hash": "3462096019013144053"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "3494843969422251966"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "lambda/index.mjs",
+        "hash": "5560577177558310216"
+      },
+      {
+        "file": "lambda/package-lock.json",
+        "hash": "14254686782996125534"
+      },
+      {
+        "file": "lambda/package.json",
+        "hash": "11489323768478617156"
+      },
+      {
+        "file": "nx.json",
+        "hash": "4255943506709674729"
+      },
+      {
+        "file": "package.json",
+        "hash": "542149135726249113"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "14518493200127778559"
+      },
+      {
+        "file": "vitest.workspace.ts",
+        "hash": "14023491222425291751"
+      },
+      {
+        "file": "yarn.lock",
+        "hash": "6058534936882619233"
+      }
+    ],
+    "projectFileMap": {
+      "sandbox": [
+        {
+          "file": "sandbox/.eslintrc.js",
+          "hash": "7585706215402504281"
+        },
+        {
+          "file": "sandbox/eslint.config.mjs",
+          "hash": "9036454466467975933"
+        },
+        {
+          "file": "sandbox/index.html",
+          "hash": "16304786742061911261"
+        },
+        {
+          "file": "sandbox/package.json",
+          "hash": "4541517189589311931"
+        },
+        {
+          "file": "sandbox/project.json",
+          "hash": "859228202677399665"
+        },
+        {
+          "file": "sandbox/public/favicon.svg",
+          "hash": "5283154912049542158"
+        },
+        {
+          "file": "sandbox/src/App.module.css",
+          "hash": "925284084101751675"
+        },
+        {
+          "file": "sandbox/src/App.tsx",
+          "hash": "1447454016944313553"
+        },
+        {
+          "file": "sandbox/src/components/card-logos/card-logos.module.css",
+          "hash": "2808173196951992814"
+        },
+        {
+          "file": "sandbox/src/components/card-logos/card-logos.tsx",
+          "hash": "18200048573721228829"
+        },
+        {
+          "file": "sandbox/src/components/checkbox/checkbox.module.css",
+          "hash": "16621043551659955740"
+        },
+        {
+          "file": "sandbox/src/components/checkbox/checkbox.tsx",
+          "hash": "2041548328947809387"
+        },
+        {
+          "file": "sandbox/src/components/donation-amount/donation-amount.module.css",
+          "hash": "16120174626015169525"
+        },
+        {
+          "file": "sandbox/src/components/donation-amount/donation-amount.tsx",
+          "hash": "1497959658977513821"
+        },
+        {
+          "file": "sandbox/src/components/donation-form/donation-form.module.css",
+          "hash": "5618083064723283893"
+        },
+        {
+          "file": "sandbox/src/components/donation-form/donation-form.tsx",
+          "hash": "3898767704090167424"
+        },
+        {
+          "file": "sandbox/src/components/donor-form/donor-form.module.css",
+          "hash": "11778874768688427629"
+        },
+        {
+          "file": "sandbox/src/components/donor-form/donor-form.tsx",
+          "hash": "14513435857638307216"
+        },
+        {
+          "file": "sandbox/src/components/footer/footer.module.css",
+          "hash": "2704293550778250411"
+        },
+        {
+          "file": "sandbox/src/components/footer/footer.tsx",
+          "hash": "6104087797293952088"
+        },
+        {
+          "file": "sandbox/src/components/header/header.module.css",
+          "hash": "5707585709645743633"
+        },
+        {
+          "file": "sandbox/src/components/header/header.tsx",
+          "hash": "6926619722202627833"
+        },
+        {
+          "file": "sandbox/src/components/index.ts",
+          "hash": "17885610448442586401"
+        },
+        {
+          "file": "sandbox/src/components/input/input.module.css",
+          "hash": "6039208554330107353"
+        },
+        {
+          "file": "sandbox/src/components/input/input.tsx",
+          "hash": "4179911419224575993"
+        },
+        {
+          "file": "sandbox/src/components/logo/logo.svg",
+          "hash": "15417353273589799132"
+        },
+        {
+          "file": "sandbox/src/components/logo/logo.tsx",
+          "hash": "8511896891548684698"
+        },
+        {
+          "file": "sandbox/src/components/radio-group/radio-group.tsx",
+          "hash": "16729621829267424180"
+        },
+        {
+          "file": "sandbox/src/components/show-status/show-status.module.css",
+          "hash": "13905647610733896267"
+        },
+        {
+          "file": "sandbox/src/components/show-status/show-status.tsx",
+          "hash": "9073825192997035918"
+        },
+        {
+          "file": "sandbox/src/components/submit/submit.module.css",
+          "hash": "8687079883933001543"
+        },
+        {
+          "file": "sandbox/src/components/submit/submit.tsx",
+          "hash": "10300354850395932685"
+        },
+        {
+          "file": "sandbox/src/components/with-props/with-props.tsx",
+          "hash": "9706966518645490693"
+        },
+        {
+          "file": "sandbox/src/context/index.ts",
+          "hash": "10141310039654219018"
+        },
+        {
+          "file": "sandbox/src/context/translations/translations.tsx",
+          "hash": "1728261790913704959"
+        },
+        {
+          "file": "sandbox/src/enums.ts",
+          "hash": "14431378702046169381"
+        },
+        {
+          "file": "sandbox/src/index.css",
+          "hash": "14345943845913959670"
+        },
+        {
+          "file": "sandbox/src/index.ts",
+          "hash": "10498180083998509644",
+          "deps": [
+            "npm:preact-custom-element"
+          ]
+        },
+        {
+          "file": "sandbox/src/interface.ts",
+          "hash": "7339567905619986518"
+        },
+        {
+          "file": "sandbox/src/logo.tsx",
+          "hash": "8819635461131588072"
+        },
+        {
+          "file": "sandbox/src/utils/utils.ts",
+          "hash": "3306664872324510674"
+        },
+        {
+          "file": "sandbox/tsconfig.app.json",
+          "hash": "18272554303888529894"
+        },
+        {
+          "file": "sandbox/tsconfig.json",
+          "hash": "12358035761049020506"
+        },
+        {
+          "file": "sandbox/tsconfig.spec.json",
+          "hash": "7277455390741021771"
+        },
+        {
+          "file": "sandbox/vite.config.ts",
+          "hash": "16650053011381831562",
+          "deps": [
+            "npm:vite",
+            "npm:@preact/preset-vite",
+            "npm:@nx/vite"
+          ]
+        }
+      ]
+    }
+  }
+}

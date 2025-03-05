@@ -1,0 +1,308 @@
+{
+  "sandbox": {
+    "root": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "sourceRoot": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "name": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "tags": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.executor": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.dependsOn": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.nx-release-publish.options": [
+      "sandbox/package.json",
+      "nx/core/package-json"
+    ],
+    "$schema": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.executor": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.options": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.options.lintFilePatterns": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.executor": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.outputs": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.defaultConfiguration": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.configurations": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.options.outputPath": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.configurations.development": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.configurations.development.mode": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.configurations.production": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.build.configurations.production.mode": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.executor": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.defaultConfiguration": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.options.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations.development": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations.development.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations.development.hmr": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations.production": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations.production.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve.configurations.production.hmr": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.dependsOn": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.executor": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.defaultConfiguration": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.options": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.configurations": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.options.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.configurations.development": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.configurations.development.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.configurations.production": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.preview.configurations.production.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.executor": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.outputs": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.test.options.reportsDirectory": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-static": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-static.executor": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-static.dependsOn": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-static.options": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-static.options.buildTarget": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.serve-static.options.spa": [
+      "sandbox/project.json",
+      "nx/core/project-json"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.test.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ]
+  }
+}

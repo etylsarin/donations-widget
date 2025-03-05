@@ -1,0 +1,43 @@
+.wrapper {
+  font-family: "Open Sans", "Segoe UI", Tahoma, sans-serif;
+  background: #fcfcfc;
+  color: #222;
+  border-radius: 24px;
+  min-width: 540px;
+}
+
+.wrapper button {
+  cursor: pointer;
+}
+
+.wrapper [role="button"] {
+  background: linear-gradient(#fcfcfc, #fcfcfc) padding-box,
+              linear-gradient(#ddd, #ddd) border-box;
+  border-radius: 32em;
+  border: 2px solid transparent;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex: 1;
+  text-align: center;
+  transition: flex-basis 100ms ease-out;
+  position: relative;
+}
+
+.body {
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0px 6px 14px 0px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+:root {
+  --checkmark-icon: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+CiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjRjI2NTM4IiBkPSJNNS45IDguMSA0LjUgOS41IDkgMTQgMTkgNGwtMS40LTEuNEw5IDExLjIgNS45IDguMVpNMTggMTBjMCA0LjQtMy42IDgtOCA4cy04LTMuNi04LTggMy42LTggOC04Yy44IDAgMS41LjEgMi4yLjNMMTMuOC43QzEyLjYuMyAxMS4zIDAgMTAgMCA0LjUgMCAwIDQuNSAwIDEwczQuNSAxMCAxMCAxMCAxMC00LjUgMTAtMTBoLTJaIi8+Cjwvc3ZnPgo=');
+  --cross-icon: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXIteC1jaXJjbGUiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEwIj48L2NpcmNsZT48bGluZSB4MT0iMTUiIHkxPSI5IiB4Mj0iOSIgeTI9IjE1Ij48L2xpbmU+PGxpbmUgeDE9IjkiIHkxPSI5IiB4Mj0iMTUiIHkyPSIxNSI+PC9saW5lPjwvc3ZnPg==');
+  --arrow-icon: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTcuNzA3LjI5M2ExIDEgMCAwIDEgMCAxLjQxNEwzLjQxNCA2SDE3YTEgMSAwIDEgMSAwIDJIMy40MTRsNC4yOTMgNC4yOTNhMSAxIDAgMSAxLTEuNDE0IDEuNDE0bC02LTZhMSAxIDAgMCAxIDAtMS40MTRsNi02YTEgMSAwIDAgMSAxLjQxNCAweiIgZmlsbD0iI0YyNjUzOCIvPjwvc3ZnPg==');
+}
