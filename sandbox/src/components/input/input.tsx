@@ -1,8 +1,16 @@
-import { JSXInternal } from 'preact/src/jsx';
 import styles from './input.module.css';
 
 export interface InputProps {
   label?: string;
+  type?: 'text' | 'number';
+  name?: string;
+  required?: boolean;
+  className?: string;
+  placeholder?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  autofocus?: boolean;
   onChange?: (value: string) => void;
 }
 
@@ -12,7 +20,7 @@ export const Input = ({
   required = false,
   onChange,
   ...props
-}: InputProps & Omit<JSXInternal.HTMLAttributes<HTMLInputElement>, 'onChange'>) => {
+}: InputProps) => {
   const handleChange = (event: any) => {
     onChange?.(event.target.value);
   };
