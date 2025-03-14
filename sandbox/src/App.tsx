@@ -71,6 +71,7 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
             }),
           }
         );
+        window.history.replaceState({}, document.title, window.location.pathname);
       } else {
         setStatus(Status.ERROR);
       }
