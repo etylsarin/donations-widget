@@ -1,6 +1,6 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { CardLogos } from './components/card-logos/card-logos';
-import { Lang, Stage } from './enums';
+import { Lang, Stage, Status, Routes } from './enums';
 import { Footer } from './components';
 import { WidgetProps } from './interface';
 import { withParsedProps } from './components/with-props/with-props';
@@ -11,7 +11,11 @@ import styles from './App.module.css';
 import { Translations } from './context/translations/translations';
 
 export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
+  const params = new URLSearchParams(window.parent.location.search);
+  const resultText = params.get('RESULTTEXT');
+  const orderNumber = params.get('ORDERNUMBER');
   const t = getTranslations(lang);
+  const [status, setStatus] = useState<Status>(Status.NEW);
   const [stage, setStage] = useState<Stage>(Stage.DONATION);
   const [donation, setDonation] = useState<SubmitProps>({
     amount: 0,
@@ -19,6 +23,12 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
     confirmationOptIn: false,
     companyDonationOptIn: false,
   });
+  const fetchParams = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   const handleDonationSubmit = (form: SubmitProps) => {
     setDonation(form);
     setStage(Stage.DONOR);
@@ -27,13 +37,11 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
     setStage(Stage.DONATION);
   };
   const handleDonorSubmit = async (form: FormProps) => {
+    console.log('URL', pgUrl);
     const response = await fetch(
-      pgUrl,
+      `${pgUrl}/${Routes.REQUEST}`,
       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        ...fetchParams,
         body: JSON.stringify({
           parameters: {
             amount: donation.amount * 100,
@@ -48,6 +56,26 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
     const url = await response.text();
     window.parent.location.href = url;
   };
+  useEffect(() => {
+    if (resultText) {
+      if (resultText === 'OK') {
+        setStatus(Status.DONE);
+        fetch(
+          `${pgUrl}/${Routes.CONFIRMATION}`,
+          {
+            ...fetchParams,
+            body: JSON.stringify({
+              parameters: {
+                orderNumber,
+              },
+            }),
+          }
+        );
+      } else {
+        setStatus(Status.ERROR);
+      }
+    }
+  }, [resultText]);
   return (
     <Translations.Provider value={t}>
       <div className={styles.wrapper}>
@@ -55,6 +83,7 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
           {stage === Stage.DONATION ? (
             <DonationForm
               {...props}
+              status={status}
               onSubmit={handleDonationSubmit}
             />
           ) : null}

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 import { Header } from '../header/header';
 import { Checkbox } from '../checkbox/checkbox';
 import { RadioGroup } from '../radio-group/radio-group';
@@ -18,13 +18,12 @@ export interface SubmitProps {
 }
 
 export interface DonationFormProps extends Omit<WidgetProps, 'pgUrl'> {
+  status: Status;
   onSubmit?: (form: SubmitProps) => void;
 }
 
-export const DonationForm = ({ onSubmit, ...props }: DonationFormProps) => {
+export const DonationForm = ({ status, onSubmit, ...props }: DonationFormProps) => {
   const t = useContext(Translations);
-  const params = new URLSearchParams(window.parent.location.search);
-  const resultText = params.get('RESULTTEXT');
   const recurrentOptions = [
     { label: t('once'), value: 'once' },
     { label: t('recurrent'), value: 'recurrent' },
@@ -34,14 +33,12 @@ export const DonationForm = ({ onSubmit, ...props }: DonationFormProps) => {
   const [confirmationOptIn, setConfirmationOptIn] = useState<boolean>(false);
   const [companyDonationOptIn, setCompanyDonationOptIn] =
     useState<boolean>(false);
-  const [status, setStatus] = useState<Status>(Status.NEW);
   const statusMessage: { [key in Status]?: string } = {
     [Status.DONE]: t('successMessage'),
     [Status.ERROR]: t('errorMessage'),
   };
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log(event);
     onSubmit?.({
       amount,
       newsletterOptIn,
@@ -61,15 +58,6 @@ export const DonationForm = ({ onSubmit, ...props }: DonationFormProps) => {
   const handleCompanyDonationOptIn = (checked: boolean) => {
     setCompanyDonationOptIn(checked);
   };
-  useEffect(() => {
-    if (resultText) {
-      if (resultText === 'OK') {
-        setStatus(Status.DONE);
-      } else {
-        setStatus(Status.ERROR);
-      }
-    }
-  }, [resultText]);
 
   return (
     <>

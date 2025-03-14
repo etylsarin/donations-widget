@@ -32,3 +32,8 @@ export enum Stage {
   DONATION = 'DONATION',
   DONOR = 'DONOR',
 }
+
+export enum Routes {
+  REQUEST = 'hh_request_payment',
+  CONFIRMATION = 'hh_confirm_payment',
+}

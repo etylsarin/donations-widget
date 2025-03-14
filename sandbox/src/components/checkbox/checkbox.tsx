@@ -10,7 +10,6 @@ export interface CheckboxProps {
 export const Checkbox = ({ label, onCheck }: CheckboxProps) => {
   const [checked, setChecked] = useState(false);
   const handleClick = () => {
-    console.log('CLICK');
     onCheck?.(!checked);
     setChecked(!checked);
   };

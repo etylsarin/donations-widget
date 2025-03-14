@@ -1,0 +1,37 @@
+<script type="text/javascript">
+const observer = new MutationObserver(() => {
+      const svg = document.querySelector('[aria-label="donations-widget-placeholder"]');
+      if (svg) {
+        const p = document.createElement("donations-widget");
+        p.setAttribute('pg-url', 'https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration');
+        p.setAttribute('contribution-options', '100,200,300');
+        p.setAttribute('lang', 'cs-CZ');
+        const svg = document.querySelector('[aria-label="donations-widget-placeholder"]');
+        console.log('onload SVG', svg);
+        svg.replaceWith(p);
+      }
+});
+observer.observe(document.querySelector('#SITE_CONTAINER'), {
+  subtree: true,
+  childList: true,
+});
+</script>
+
+<script type="module" crossorigin="" src="https://etylsarin.github.io/donations-widget/assets/index-B8rKS25X.js"></script>
+<link rel="stylesheet" crossorigin="" href="https://etylsarin.github.io/donations-widget/assets/index-MlwGc5t3.css">
+<style>
+@keyframes fadein {
+    from { opacity: .1; transform: scale(0.5) translate(40%, 40%); }
+    to { opacity: .9; transform: scale(0.7) translate(20%, 20%); }
+}
+[aria-label="donations-widget-placeholder"] path {
+fill: red;
+animation: fadein 1s ease-in alternate infinite;
+}
+[aria-label="donations-widget-placeholder"] path:nth-of-type(2) {
+animation-delay: 150ms;
+}
+[aria-label="donations-widget-placeholder"] path:nth-of-type(3) {
+animation-delay: 300ms;
+}
+</style>
