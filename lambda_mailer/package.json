@@ -1,0 +1,15 @@
+{
+  "name": "mailer",
+  "version": "1.0.0",
+  "description": "sending confirmation mails",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sesv2": "^3.758.0",
+    "@foliojs-fork/pdfkit": "^0.15.3"
+  }
+}
