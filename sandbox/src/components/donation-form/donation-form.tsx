@@ -22,13 +22,18 @@ export interface DonationFormProps extends Omit<WidgetProps, 'pgUrl'> {
   onSubmit?: (form: SubmitProps) => void;
 }
 
-export const DonationForm = ({ status, onSubmit, ...props }: DonationFormProps) => {
+export const DonationForm = ({
+  status,
+  onSubmit,
+  ...props
+}: DonationFormProps) => {
   const t = useContext(Translations);
   const recurrentOptions = [
     { label: t('once'), value: 'once' },
     { label: t('recurrent'), value: 'recurrent' },
   ];
-  const [amount, setAmount] = useState<number>(0);
+  const defaultValue = props.contributionOptions?.[0] || 0;
+  const [amount, setAmount] = useState<number>(defaultValue);
   const [newsletterOptIn, setNewsletterOptIn] = useState<boolean>(false);
   const [confirmationOptIn, setConfirmationOptIn] = useState<boolean>(false);
   const [companyDonationOptIn, setCompanyDonationOptIn] =
@@ -77,6 +82,7 @@ export const DonationForm = ({ status, onSubmit, ...props }: DonationFormProps) 
         <DonationAmount
           contributionOptions={props.contributionOptions}
           onChange={handleAmountChange}
+          defaultValue={defaultValue}
         />
         <Checkbox
           onCheck={handleNewsletterOptIn}
@@ -86,10 +92,12 @@ export const DonationForm = ({ status, onSubmit, ...props }: DonationFormProps) 
           onCheck={handleConfirmationOptIn}
           label={t('confirmationOptIn')}
         />
-        <Checkbox
-          onCheck={handleCompanyDonationOptIn}
-          label={t('companyDonationOptIn')}
-        />
+        {confirmationOptIn ? (
+          <Checkbox
+            onCheck={handleCompanyDonationOptIn}
+            label={t('companyDonationOptIn')}
+          />
+        ) : null}
         <Submit label={t('continue')} status={status} />
       </form>
       {status in statusMessage ? (

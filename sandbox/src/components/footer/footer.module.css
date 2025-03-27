@@ -9,10 +9,11 @@
   width: 184px;
   height: 61px;
 }
-.footer .url {
+.footer .url, .footer .url:visited {
   color: #F26538;
   font-weight: 500;
   font-size: 14px;
+  text-decoration: none;
 }
 .footer .author {
   text-align: center;
@@ -22,6 +23,9 @@
   font-weight: 600;
   font-size: 14px;
   gap: 10px;
+}
+.footer .author a {
+  display: inline-flex;
 }
 .footer .author img {
   height: 30px;

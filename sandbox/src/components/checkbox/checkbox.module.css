@@ -5,6 +5,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .checkbox input {
   cursor: pointer;
@@ -23,7 +24,7 @@
   text-align: center;
   border-radius: 2px;
 }
-.checkbox:has(input:checked)::before {
+.checkbox:has(input[value="true"])::before {
   content: '✔';
   background-color: #F26538;
 }

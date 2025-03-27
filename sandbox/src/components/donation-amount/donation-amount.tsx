@@ -5,26 +5,39 @@ import { Input } from '../input/input';
 import styles from './donation-amount.module.css';
 import { Translations } from '../../context';
 
+export enum DonationType {
+  PRESET = 'PRESET',
+  CUSTOM = 'CUSTOM',
+}
+
 export interface DonationAmountProps {
+  defaultValue?: number;
   contributionOptions?: number[];
   onChange?: (amount: number) => void;
 }
 
 export const DonationAmount = ({
+  defaultValue,
   contributionOptions,
   onChange,
 }: DonationAmountProps) => {
   const t = useContext(Translations);
   const [showCustomInput, setShowCustomInput] = useState<boolean>(false);
+  const [radioValue, setRadioValue] = useState<number | undefined>(defaultValue);
   const presetOptions = contributionOptions?.map?.((item) => ({
     label: t('contributionOption', formatStringNumber(item.toString())),
     value: item.toString(),
   }));
-  const handleChange = (value: string) => {
+  const handleChange = (type: DonationType) => (value: string) => {
+    if (type === DonationType.PRESET) {
+      setShowCustomInput(false);
+      setRadioValue(parseInt(value));
+    }
     onChange?.(parseInt(value) || 0);
   };
   const handleClick = () => {
-    setShowCustomInput(!showCustomInput);
+    setShowCustomInput(true);
+    setRadioValue(undefined);
   };
   return (
     <>
@@ -33,8 +46,9 @@ export const DonationAmount = ({
           legend={t('presetOptionsLegend')}
           name="amount-preset"
           values={presetOptions}
+          selected={radioValue}
           className={styles.options}
-          onSelect={handleChange}
+          onSelect={handleChange(DonationType.PRESET)}
         />
       ) : null}
       <fieldset id="toggle">
@@ -50,7 +64,7 @@ export const DonationAmount = ({
             placeholder={t('customAmountPlaceholder')}
             required={showCustomInput}
             autofocus={true}
-            onChange={handleChange}
+            onChange={handleChange(DonationType.CUSTOM)}
           />
         ) : (
           <button
