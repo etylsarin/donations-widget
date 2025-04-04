@@ -7,13 +7,24 @@
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
-
+<style>
+  .resizable {
+  min-width: 320px;
+  resize: horizontal;
+  overflow: auto;
+  max-width: 540px;
+  }
+</style>
 <body style="background: #eee; padding: 20px; display: flex; gap: 20px;">
+  <div class="resizable">
   <donations-widget pg-url="https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration"
     start-date="2017-10-16" total-contribution="495960" total-contributors="91" contribution-options="1000,5000,10000"
     lang="cs-CZ" recurrent="true"></donations-widget>
+  </div>
+  <div class="resizable">
   <donations-widget pg-url="https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration"
     contribution-options="100,200,300" lang="en-US"></donations-widget>
+  </div>
   <script type="module" src="/src/index.ts"></script>
 </body>
 

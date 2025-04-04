@@ -5,6 +5,7 @@ import { useContext, useState } from 'preact/hooks';
 import { Translations } from '../../context';
 import { formatStringNumber } from '../../utils/utils';
 import { SubmitProps } from '../donation-form/donation-form';
+import { Status } from '../../enums';
 
 export interface FormProps {
   firstName?: string;
@@ -16,12 +17,13 @@ export interface FormProps {
 }
 
 export interface DonorFormProps {
+  status: Status;
   donation: SubmitProps;
   onSubmit?: (from: FormProps) => void;
   onBack?: () => void;
 }
 
-export const DonorForm = ({ donation, onSubmit, onBack }: DonorFormProps) => {
+export const DonorForm = ({ status, donation, onSubmit, onBack }: DonorFormProps) => {
   const [form, setForm] = useState<FormProps>({});
   const t = useContext(Translations);
   const submitLabel = `${t('donateButton')}  ${
@@ -88,7 +90,7 @@ export const DonorForm = ({ donation, onSubmit, onBack }: DonorFormProps) => {
           required={donation.confirmationOptIn || donation.newsletterOptIn}
           onChange={(value) => handleInput('email', value)}
         />
-        <Submit label={submitLabel} />
+        <Submit label={submitLabel} status={status} />
       </form>
     </>
   );

@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 15px;
 }
 .footer .logo {
   width: 184px;
@@ -22,7 +23,7 @@
   justify-content: center;
   font-weight: 600;
   font-size: 14px;
-  gap: 10px;
+  gap: 5px;
 }
 .footer .author a {
   display: inline-flex;
