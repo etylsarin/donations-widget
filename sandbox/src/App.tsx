@@ -37,7 +37,7 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
     setStage(Stage.DONATION);
   };
   const handleDonorSubmit = async (form: FormProps) => {
-    console.log('URL', pgUrl);
+    setStatus(Status.BUSY);
     const response = await fetch(
       `${pgUrl}/${Routes.REQUEST}`,
       {
@@ -90,6 +90,7 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
           ) : null}
           {stage === Stage.DONOR ? (
             <DonorForm
+              status={status}
               onSubmit={handleDonorSubmit}
               onBack={handleDonorBack}
               donation={donation}

@@ -11,9 +11,9 @@ export const Footer = ({ showLogo }: FooterProps) => {
   return (
     <div className={styles.footer}>
       {showLogo ? <Logo className={styles.logo} /> : null}
-      <p className={styles.url}>happyheartsczech.org</p>
+      <a href="https://www.happyheartsczech.org/" className={styles.url} target="_blank">happyheartsczech.org</a>
       <p className={styles.author}>
-        Brought to you by <img src={ma_logo} alt="Mastercard" />
+        Brought to you by <a href="https://www.mastercard.com/" target="_blank"><img src={ma_logo} alt="Mastercard" /></a>
       </p>
     </div>
   );

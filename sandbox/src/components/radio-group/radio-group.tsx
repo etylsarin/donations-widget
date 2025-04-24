@@ -10,18 +10,30 @@ export interface RadioGroupProps {
   name: string;
   values: RadioGroupItemProps[];
   className?: string;
+  selected?: number;
   onSelect?: (value: string) => void;
 }
 
-export const RadioGroup = ({ legend, name, values, className, onSelect }: RadioGroupProps) => {
-  const [selected, setSelected] = useState<RadioGroupItemProps>(values[0]);
+export const RadioGroup = ({
+  legend,
+  name,
+  values,
+  className,
+  selected: selectedValue,
+  onSelect,
+}: RadioGroupProps) => {
+  const [selected, setSelected] = useState<RadioGroupItemProps | undefined>();
   const handleClick = (item: RadioGroupItemProps) => {
     setSelected(item);
     onSelect?.(item.value);
   };
   useEffect(() => {
-    handleClick(selected);
-  }, []);
+    if (selectedValue !== selected?.value) {
+      setSelected(
+        values.find((item) => parseInt(item.value) === selectedValue)
+      );
+    }
+  }, [selectedValue]);
   return (
     <fieldset className={className}>
       <legend>{legend}</legend>
@@ -32,7 +44,7 @@ export const RadioGroup = ({ legend, name, values, className, onSelect }: RadioG
             type="radio"
             name={name}
             value={item.value}
-            checked={item.value === selected.value}
+            checked={item.value === selected?.value}
           />
         </label>
       ))}
