@@ -13,5 +13,5 @@ register(
     'lang',
     'recurrent',
   ],
-  { shadow: false }
+  { shadow: true }
 );

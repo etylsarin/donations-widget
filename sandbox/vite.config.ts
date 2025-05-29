@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import preact from '@preact/preset-vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig({
   root: __dirname,
@@ -19,7 +20,11 @@ export default defineConfig({
     port: 4300,
     host: 'localhost',
   },
-  plugins: [preact(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [preact(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md']), cssInjectedByJsPlugin({
+    injectCode: (cssCode: string) => {
+        return `try{if(typeof document !== 'undefined'){var elementStyle = document.createElement('style');elementStyle.appendChild(document.createTextNode(${cssCode}));document.querySelectorAll('donations-widget').forEach((item) => {item.appendChild(elementStyle)});}}catch(e){console.error('vite-plugin-css-injected-by-js', e);}`
+    }
+  })],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
