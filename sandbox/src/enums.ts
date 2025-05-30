@@ -34,6 +34,6 @@ export enum Stage {
 }
 
 export enum Routes {
-  REQUEST = 'hh_request_payment',
-  CONFIRMATION = 'hh_confirm_payment',
+  REQUEST = '/integration/hh_request_payment',
+  CONFIRMATION = '/integration/hh_confirm_payment',
 }

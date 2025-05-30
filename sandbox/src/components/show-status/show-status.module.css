@@ -1,37 +1,31 @@
 .status {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: calc(100% - 32px);
-  height: calc(100% - 32px);
-  background-color: rgba(255,255,255,0.7);
   padding: 16px;
-  font-size: 20px;
+  font-size: 16px;
   box-sizing: content-box;
-  backdrop-filter: blur(10px);
   display: flex;
-  flex-direction: column;
   gap: 16px;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   border-radius: 12px;
+  border: 2px solid transparent;
+  margin-bottom: 8px;
 }
-.status::before, .status::after {
+.status::before {
   content: '';
   display: inline-block;
   width: 64px;
   height: 64px;
+  flex-shrink: 0;
 }
-.status.success {
-  color: #30D053;
+.status.done {
+  border-color: #30D053;
 }
-.status.success::before {
+.status.done::before {
   background: #30D053;
   mask: var(--checkmark-icon);
 }
 .status.error {
   color: #F23838;
+  border-color: #F23838;
 }
 .status.error::before {
   background: #F23838;

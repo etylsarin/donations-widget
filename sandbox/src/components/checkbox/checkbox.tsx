@@ -16,7 +16,8 @@ export const Checkbox = ({ label, onCheck }: CheckboxProps) => {
   };
   return (
     <label className={styles.checkbox} onClick={handleClick}>
-      <input type="checkbox" name={label} value={`${checked}`} checked={checked} />{' '}
+      <input type="checkbox" name={label} value={`${checked}`} checked={checked} />
+      <span className={styles.guise} />
       {label}
     </label>
   );

@@ -1,5 +1,6 @@
 .checkbox {
-  display: inline-block;
+  display: flex;
+  gap: 12px;
   margin-bottom: 32px;
   font-size: 16px;
   position: relative;
@@ -13,18 +14,54 @@
   position: absolute;
   left: 0;
 }
-.checkbox::before {
-  content: '';
-  color: #fff;
+
+.guise {
   display: inline-block;
-  margin-right: 10px;
-  border: 1px solid orange;
-  width: 22px;
-  height: 22px;
-  text-align: center;
-  border-radius: 2px;
+  position: relative;
+  height: 24px;
 }
-.checkbox:has(input[value="true"])::before {
-  content: '✔';
-  background-color: #F26538;
+
+.guise::before, .guise::after {
+  content: '';
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.guise::before {
+  height: 24px;
+  width: 48px;
+  background-clip: padding-box;
+  border-radius: 12px;
+  background-color: #535353;
+  background-repeat: no-repeat;
+  background-size: 33.3333333333%;
+  color: #fff;
+  content: attr(data-label-off);
+  line-height: 22px;
+  padding: 0 8px 0 24px;
+  transition: all 150ms;
+}
+
+.guise::after {
+  height: 18px;
+  width: 18px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-clip: padding-box;
+  border-radius: 50%;
+  background: #fff;
+  left: 2px;
+  transition: all 150ms;
+}
+
+.checkbox input:checked + .guise::before {
+  background-color: #30D053;
+  background-image: none;
+  content: attr(data-label-on);
+  padding: 0 24px 0 8px;
+}
+
+.checkbox input:checked + .guise::after {
+  left: calc(100% - 22px + 2px);
 }

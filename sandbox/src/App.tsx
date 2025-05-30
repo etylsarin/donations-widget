@@ -39,7 +39,7 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
   const handleDonorSubmit = async (form: FormProps) => {
     setStatus(Status.BUSY);
     const response = await fetch(
-      `${pgUrl}/${Routes.REQUEST}`,
+      `${pgUrl}${Routes.REQUEST}`,
       {
         ...fetchParams,
         body: JSON.stringify({
@@ -61,7 +61,7 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
       if (resultText === 'OK') {
         setStatus(Status.DONE);
         fetch(
-          `${pgUrl}/${Routes.CONFIRMATION}`,
+          `${pgUrl}${Routes.CONFIRMATION}`,
           {
             ...fetchParams,
             body: JSON.stringify({

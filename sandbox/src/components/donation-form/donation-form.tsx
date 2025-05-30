@@ -71,6 +71,9 @@ export const DonationForm = ({
         totalContribution={props.totalContribution}
         totalContributors={props.totalContributors}
       />
+      {status in statusMessage ? (
+        <ShowStatus status={status} message={statusMessage[status] as string} />
+      ) : null}
       <form onSubmit={handleSubmit} className={styles.form}>
         {props.recurrent ? (
           <RadioGroup
@@ -100,9 +103,6 @@ export const DonationForm = ({
         ) : null}
         <Submit label={t('continue')} status={status} />
       </form>
-      {status in statusMessage ? (
-        <ShowStatus status={status} message={statusMessage[status] as string} />
-      ) : null}
     </>
   );
 };
