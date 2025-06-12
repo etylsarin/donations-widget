@@ -20,15 +20,28 @@ export default defineConfig({
     port: 4300,
     host: 'localhost',
   },
-  plugins: [preact(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md']), cssInjectedByJsPlugin({
-    injectCode: (cssCode: string) => {
-        return `try{if(typeof document !== 'undefined'){var elementStyle = document.createElement('style');elementStyle.appendChild(document.createTextNode(${cssCode}));document.querySelectorAll('donations-widget').forEach((item) => {item.appendChild(elementStyle)});}}catch(e){console.error('vite-plugin-css-injected-by-js', e);}`
-    }
-  })],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  plugins: [
+    preact(),
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md']),
+    cssInjectedByJsPlugin({
+      injectCodeFunction: (cssCode: string) => {
+        try {
+          if (typeof document !== 'undefined') {
+            customElements.whenDefined('donations-widget').then(() => {
+              const elementStyle = document.createElement('style');
+              elementStyle.appendChild(document.createTextNode(cssCode));
+              document.querySelectorAll('donations-widget').forEach((item) => {
+                item.shadowRoot?.appendChild(elementStyle);
+              });
+            });
+          }
+        } catch (e) {
+          console.error('vite-plugin-css-injected-by-js', e);
+        }
+      },
+    }),
+  ],
   build: {
     outDir: '../dist/sandbox',
     emptyOutDir: true,

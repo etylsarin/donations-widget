@@ -34,6 +34,7 @@ export const getTranslations = (lang = Lang.EN_US) => {
       companyRegistrationNumber: 'IČO',
       continue: 'Pokračovat',
       back: 'Zpět',
+      legal: 'Pokračováním v nákupu souhlastíte s <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_9599a59801304ac986837f29186d6748.pdf__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n4bTBa9nQ$">Obchodními podmínkami</a><br />a <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_6001059bc66c453eaaa4a9f7b8523bbd.pdf?lang=en__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n5crbI8Vg$">Podmínkami ochrany osobních údajů</a>.',
     },
     [Lang.EN_US]: {
       infoStartDate: (startDate: Date) => `campaign started on ${startDate?.toLocaleDateString?.(lang)}`,
@@ -63,6 +64,7 @@ export const getTranslations = (lang = Lang.EN_US) => {
       companyRegistrationNumber: 'CRN',
       continue: 'Continue',
       back: 'Back',
+      legal: 'By continuing to checkout, you agree to the <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_9599a59801304ac986837f29186d6748.pdf__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n4bTBa9nQ$">Terms and Conditions</a><br />and the <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_6001059bc66c453eaaa4a9f7b8523bbd.pdf?lang=en__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n5crbI8Vg$">Privacy Policy</a>.',
     },
   };
   if (translations[lang]) {

@@ -6,6 +6,7 @@ import { Translations } from '../../context';
 import { formatStringNumber } from '../../utils/utils';
 import { SubmitProps } from '../donation-form/donation-form';
 import { Status } from '../../enums';
+import { Legal } from '../legal/legal';
 
 export interface FormProps {
   firstName?: string;
@@ -91,6 +92,7 @@ export const DonorForm = ({ status, donation, onSubmit, onBack }: DonorFormProps
           onChange={(value) => handleInput('email', value)}
         />
         <Submit label={submitLabel} status={status} />
+        <Legal />
       </form>
     </>
   );

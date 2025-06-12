@@ -4,7 +4,10 @@ import { Lang, Stage, Status, Routes } from './enums';
 import { Footer } from './components';
 import { WidgetProps } from './interface';
 import { withParsedProps } from './components/with-props/with-props';
-import { DonationForm, SubmitProps } from './components/donation-form/donation-form';
+import {
+  DonationForm,
+  SubmitProps,
+} from './components/donation-form/donation-form';
 import { DonorForm, FormProps } from './components/donor-form/donor-form';
 import { generateUniqueNum, getTranslations } from './utils/utils';
 import styles from './App.module.css';
@@ -38,21 +41,18 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
   };
   const handleDonorSubmit = async (form: FormProps) => {
     setStatus(Status.BUSY);
-    const response = await fetch(
-      `${pgUrl}${Routes.REQUEST}`,
-      {
-        ...fetchParams,
-        body: JSON.stringify({
-          parameters: {
-            amount: donation.amount * 100,
-            currency: t('currencyCode'),
-            orderNumber: generateUniqueNum(),
-            redirect_url: window.location.href.split('?')[0],
-            ...form,
-          },
-        }),
-      }
-    );
+    const response = await fetch(`${pgUrl}${Routes.REQUEST}`, {
+      ...fetchParams,
+      body: JSON.stringify({
+        parameters: {
+          amount: donation.amount * 100,
+          currency: t('currencyCode'),
+          orderNumber: generateUniqueNum(),
+          redirect_url: window.location.href.split('?')[0],
+          ...form,
+        },
+      }),
+    });
     const url = await response.text();
     window.parent.location.href = url;
   };
@@ -60,18 +60,19 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
     if (resultText) {
       if (resultText === 'OK') {
         setStatus(Status.DONE);
-        fetch(
-          `${pgUrl}${Routes.CONFIRMATION}`,
-          {
-            ...fetchParams,
-            body: JSON.stringify({
-              parameters: {
-                orderNumber,
-              },
-            }),
-          }
+        fetch(`${pgUrl}${Routes.CONFIRMATION}`, {
+          ...fetchParams,
+          body: JSON.stringify({
+            parameters: {
+              orderNumber,
+            },
+          }),
+        });
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
         );
-        window.history.replaceState({}, document.title, window.location.pathname);
       } else {
         setStatus(Status.ERROR);
       }
