@@ -6,27 +6,38 @@
   <title>Sandbox</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script type="module" crossorigin src="/donations-widget/assets/index-BErMZH_F.js"></script>
+  <script type="module" crossorigin src="/donations-widget/assets/index-CZ4NAxft.js"></script>
   
 </head>
-<style>
-  .resizable {
-  min-width: 320px;
-  resize: horizontal;
-  overflow: auto;
-  max-width: 540px;
-  }
-</style>
-<body style="background: #eee; padding: 20px; display: flex; gap: 20px;">
-  <div class="resizable">
-  <donations-widget pg-url="https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration"
-    start-date="2017-10-16" total-contribution="495960" total-contributors="91" contribution-options="1000,5000,10000"
-    lang="cs-CZ" recurrent="true"></donations-widget>
-  </div>
-  <div class="resizable">
-  <donations-widget pg-url="https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration"
-    contribution-options="100,200,300" lang="en-US"></donations-widget>
-  </div>
+<body style="background: #eee; padding: 20px;" id="SITE_CONTAINER">
+  <div aria-label="donations-widget-placeholder"></div>
+  <script type="text/javascript">
+    function renderWidget() {
+      var widgetPlaceholder = document.querySelector(
+        '[aria-label="donations-widget-placeholder"]'
+      );
+      if (widgetPlaceholder) {
+        var widget = document.createElement("donations-widget");
+        widget.setAttribute("lang", "cs-CZ");
+        widget.setAttribute(
+          "pg-url",
+          "https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com"
+        );
+        widget.setAttribute(
+          "style",
+          "position:absolute;z-index:1000;"
+        );
+        widgetPlaceholder.replaceWith(widget);
+      }
+    }
+    renderWidget();
+    new MutationObserver(function () {
+      renderWidget();
+    }).observe(document.querySelector("#SITE_CONTAINER"), {
+      subtree: true,
+      childList: true,
+    });
+  </script>
 </body>
 
 </html>
