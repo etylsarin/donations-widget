@@ -1,26 +1,19 @@
-import { CurrencyCode, CurrencySymbol, Lang } from "../enums";
+import { CurrencyCode, CurrencySymbol, Lang, LangWithRegion } from "../enums";
 
-export const getTranslations = (lang = Lang.EN_US) => {
-  let selection;
-  const translations: Record<Lang, Record<
-  string,
-  string | ((param: any) => string)
->> = {
-    [Lang.CS_CZ]: {
+export const getTranslations = (lang: LangWithRegion) => {
+  const getTranslationsObj = (currencySymbol: CurrencySymbol) => ({
+    [Lang.CS]: {
       infoStartDate: (startDate: Date) => `vybíráme od ${startDate?.toLocaleDateString?.(lang)}`,
-      infoContributions: (totalContribution: string) => `${formatStringNumber(totalContribution)} ${translations[lang]?.currencySymbol}`,
+      infoContributions: (totalContribution: string) => `${formatStringNumber(totalContribution)} ${currencySymbol}`,
       infoContributors: (totalContributors: string) => `${totalContributors} lidí`,
       labelContributors: 'přispělo',
       once: 'jednorázově',
       recurrent: 'měsíčně',
       presetOptionsLegend: 'Darovat',
       cunstomAmountLabel: 'Kolik chcete přispět?',
-      contributionOption: (amount: string) => `${amount}\u00A0${translations[lang]?.currencySymbol}`,
-      customAmountPlaceholder: CurrencySymbol.CZK,
+      contributionOption: (amount: string) => `${amount}\u00A0${currencySymbol}`,
       customAmountButton: 'Jiná částka',
       donateButton: 'Darovat',
-      currencySymbol: CurrencySymbol.CZK,
-      currencyCode: CurrencyCode.CZK,
       successMessage: 'Děkujeme za váš příspěvek pro HappyHearts Czech Republic! Vaši platbu jsme přijali v pořádku.',
       errorMessage: 'Nepodařilo se dokončit platbu. Zkuste to znovu.',
       newsletterOptIn: 'Přihlaste se k odběru novinek',
@@ -35,22 +28,21 @@ export const getTranslations = (lang = Lang.EN_US) => {
       continue: 'Pokračovat',
       back: 'Zpět',
       legal: 'Pokračováním v nákupu souhlastíte s <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_9599a59801304ac986837f29186d6748.pdf__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n4bTBa9nQ$">Obchodními podmínkami</a><br />a <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_6001059bc66c453eaaa4a9f7b8523bbd.pdf?lang=en__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n5crbI8Vg$">Podmínkami ochrany osobních údajů</a>.',
+      customAmountPlaceholder: currencySymbol,
+      currencySymbol,
     },
-    [Lang.EN_US]: {
+    [Lang.EN]: {
       infoStartDate: (startDate: Date) => `campaign started on ${startDate?.toLocaleDateString?.(lang)}`,
-      infoContributions: (totalContribution: string) => `${translations[lang]?.currencySymbol} ${formatStringNumber(totalContribution)}`,
+      infoContributions: (totalContribution: string) => `${currencySymbol} ${formatStringNumber(totalContribution)}`,
       infoContributors: (totalContributors: string) => `${totalContributors} people`,
       labelContributors: 'donated',
       once: 'once',
       recurrent: 'monthly',
       presetOptionsLegend: 'Donate',
       cunstomAmountLabel: 'How much to donate?',
-      contributionOption: (amount: string) => `${translations[lang]?.currencySymbol}${amount}`,
-      customAmountPlaceholder: CurrencySymbol.USD,
+      contributionOption: (amount: string) => `${currencySymbol}${amount}`,
       customAmountButton: 'Other Amount',
       donateButton: 'Donate',
-      currencySymbol: CurrencySymbol.USD,
-      currencyCode: CurrencyCode.USD,
       successMessage: 'Thank you for supporting HappyHearts Czech Republic! Your donation was received.',
       errorMessage: 'We could not process your donation. Try again.',
       newsletterOptIn: 'Opt in to receive marketing news',
@@ -65,13 +57,29 @@ export const getTranslations = (lang = Lang.EN_US) => {
       continue: 'Continue',
       back: 'Back',
       legal: 'By continuing to checkout, you agree to the <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_9599a59801304ac986837f29186d6748.pdf__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n4bTBa9nQ$">Terms and Conditions</a><br />and the <a href="https://urldefense.com/v3/__https:/www.happyheartsczech.org/_files/ugd/2e93ed_6001059bc66c453eaaa4a9f7b8523bbd.pdf?lang=en__;!!NDdRaFrjhKsg!vPLdJq7G7TDavCRsh0xJAkPnHRCfyRWsKL2VnjNfEgkQKdZX_lgtNotbaArgodEyzmfGXDUsY2N1R2JFNfeq8n5crbI8Vg$">Privacy Policy</a>.',
+      customAmountPlaceholder: currencySymbol,
+      currencySymbol,
+    },
+  });
+  const translationsWithCurrency: Record<string, Record<
+  string,
+  string | ((param: any) => string)
+>> = {
+    [Lang.CS_CZ]: {
+      ...getTranslationsObj(CurrencySymbol.CZK).cs,
+      currencyCode: CurrencyCode.CZK,
+    },
+    [Lang.EN_US]: {
+      ...getTranslationsObj(CurrencySymbol.USD).en,
+      currencyCode: CurrencyCode.USD,
+    },
+    [Lang.EN_EU]: {
+      ...getTranslationsObj(CurrencySymbol.EUR).en,
+      currencyCode: CurrencyCode.EUR,
     },
   };
-  if (translations[lang]) {
-    selection = translations[lang];
-  } else {
-    selection = translations[Lang.EN_US];
-  }
+
+  const selection = translationsWithCurrency[lang];
   return (name: string, value?: string | Date) => typeof selection[name] === 'string' ? selection[name] : selection[name](value);
 };
 

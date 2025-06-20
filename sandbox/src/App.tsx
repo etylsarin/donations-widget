@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 import { CardLogos } from './components/card-logos/card-logos';
-import { Lang, Stage, Status, Routes } from './enums';
+import { Stage, Status, Routes, LangWithRegion } from './enums';
 import { Footer } from './components';
 import { WidgetProps } from './interface';
 import { withParsedProps } from './components/with-props/with-props';
@@ -13,11 +13,11 @@ import { generateUniqueNum, getTranslations } from './utils/utils';
 import styles from './App.module.css';
 import { Translations } from './context/translations/translations';
 
-export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
+export const Widget = ({ pgUrl, lang, ...props }: WidgetProps) => {
   const params = new URLSearchParams(window.parent.location.search);
   const resultText = params.get('RESULTTEXT');
   const orderNumber = params.get('ORDERNUMBER');
-  const t = getTranslations(lang);
+  const t = getTranslations(lang as LangWithRegion);
   const [status, setStatus] = useState<Status>(Status.NEW);
   const [stage, setStage] = useState<Stage>(Stage.DONATION);
   const [donation, setDonation] = useState<SubmitProps>({
@@ -56,6 +56,16 @@ export const Widget = ({ pgUrl, lang = Lang.EN_US, ...props }: WidgetProps) => {
     const url = await response.text();
     window.parent.location.href = url;
   };
+  useEffect(() => {
+    const handlePageshow = (event: any) => {
+      if (event.persisted) {
+        setStatus(Status.NEW);
+        setStage(Stage.DONATION);
+      }
+    };
+    window.addEventListener('pageshow', handlePageshow);
+    return () => window.removeEventListener('pageshow', handlePageshow);
+  }, []);
   useEffect(() => {
     if (resultText) {
       if (resultText === 'OK') {

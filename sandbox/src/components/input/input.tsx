@@ -12,6 +12,7 @@ export interface InputProps {
   step?: number;
   autofocus?: boolean;
   onChange?: (value: string) => void;
+  onKeyDown?: (event: any) => void;
 }
 
 export const Input = ({
@@ -30,7 +31,7 @@ export const Input = ({
       {label}
       <input
         {...props}
-        className={styles.input}
+        className={`${styles.input} ${props.className}`}
         type={type}
         required={required}
         onInput={handleChange}

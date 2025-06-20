@@ -1,6 +1,9 @@
 export enum Lang {
+  CS = 'cs',
   CS_CZ = 'cs-cz',
+  EN = 'en',
   EN_US = 'en-us',
+  EN_EU = 'en-eu',
 }
 
 export enum Currency {
@@ -37,3 +40,5 @@ export enum Routes {
   REQUEST = '/integration/hh_request_payment',
   CONFIRMATION = '/integration/hh_confirm_payment',
 }
+
+export type LangWithRegion = Exclude<Lang, Lang.CS | Lang.EN>
