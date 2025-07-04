@@ -6,3 +6,10 @@
   height: 24px;
   margin: 0 4px;
 }
+
+.logos .c2p {
+  height: 18px;
+  margin: 3px 0 3px 4px;
+  padding-right: 6px;
+  border-right: 2px solid #000;
+}

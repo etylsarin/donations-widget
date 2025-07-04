@@ -60,7 +60,6 @@ export const Widget = ({ pgUrl, lang, ...props }: WidgetProps) => {
     const handlePageshow = (event: any) => {
       if (event.persisted) {
         setStatus(Status.NEW);
-        setStage(Stage.DONATION);
       }
     };
     window.addEventListener('pageshow', handlePageshow);
