@@ -9,6 +9,11 @@
 </head>
 <body style="background: #eee; padding: 20px;" id="SITE_CONTAINER">
   <div aria-label="donations-widget-placeholder"></div>
+  <style>
+    .donations-widget {
+      width: 100%;
+    }
+  </style>
   <script type="module" src="/src/index.ts"></script>
   <script type="text/javascript">
     function renderWidget() {
@@ -24,6 +29,10 @@
         widget.setAttribute(
           "style",
           "position:absolute;z-index:1000;"
+        );
+        widget.setAttribute(
+          "class",
+          "donations-widget"
         );
         widgetPlaceholder.replaceWith(widget);
       }

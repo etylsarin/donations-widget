@@ -49,6 +49,7 @@ export const Widget = ({ pgUrl, lang, ...props }: WidgetProps) => {
           currency: t('currencyCode'),
           orderNumber: generateUniqueNum(),
           redirect_url: window.location.href.split('?')[0],
+          lang: lang?.split('_')[0],
           ...form,
         },
       }),

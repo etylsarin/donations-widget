@@ -1,4 +1,9 @@
-<script type="module" src="https://etylsarin.github.io/donations-widget/assets/index-BxAaaLUu.js"></script>
+  <style>
+    .donations-widget {
+      width: 100%;
+    }
+  </style>
+<script type="module" src="https://etylsarin.github.io/donations-widget/assets/index-D7NJop55.js"></script>
 <script type="text/javascript">
   function renderWidget() {
     var widgetPlaceholder = document.querySelector(
@@ -6,7 +11,6 @@
     );
     if (widgetPlaceholder) {
       var widget = document.createElement("donations-widget");
-      widget.setAttribute("lang", "cs-CZ");
       widget.setAttribute(
         "pg-url",
         "https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com"
@@ -14,6 +18,10 @@
       widget.setAttribute(
         "style",
         "position:absolute;z-index:1000;"
+      );
+      widget.setAttribute(
+        "class",
+        "donations-widget"
       );
       widgetPlaceholder.replaceWith(widget);
     }
