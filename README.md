@@ -1,95 +1,201 @@
 # Donations Widget
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A customizable donation widget that can be embedded on any website as a custom HTML element. Built with Preact and designed to integrate seamlessly with payment gateways.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Quick Start
 
-Run `npx nx graph` to visually explore what got created. Now, let's get you up to speed!
+### 1. Include the Widget Script
 
-## Run tasks
+Add the widget script to your HTML page:
 
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```html
+<script type="module" src="path/to/donations-widget.js"></script>
 ```
 
-For example:
+### 2. Add the Widget Element
 
-```sh
-npx nx build myproject
+Place the donations widget in your HTML:
+
+```html
+<donations-widget 
+  pg-url="https://your-payment-gateway.com"
+  currency="USD"
+  lang="en"
+  contribution-options="[50,100,200]"
+  total-contribution="25000"
+  total-contributors="150"
+  recurrent="true">
+</donations-widget>
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### 3. Style the Widget (Optional)
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+```css
+.donations-widget {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+## Configuration Parameters
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+The widget accepts the following parameters as HTML attributes. All attribute names should be in kebab-case (e.g., `pg-url`, `total-contribution`).
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+### Required Parameters
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `pg-url` | `string` | **Required.** The URL of your payment gateway endpoint. This is where donation requests will be sent. |
+
+### Optional Parameters
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `start-date` | `Date` | - | The campaign start date. When provided, displays "since [date]" information in the widget header. |
+| `total-contribution` | `number` | - | Total amount raised so far. Displays prominently in the widget header to show campaign progress. |
+| `total-contributors` | `number` | - | Number of people who have contributed. Shows social proof in the widget header. |
+| `currency` | `string` | `"USD"` | Currency for donations. Supported values: `"CZK"`, `"USD"`, `"EUR"` |
+| `contribution-options` | `number[]` | Varies by language | Array of preset donation amounts. Example: `[50,100,200]`. Users can also enter custom amounts. |
+| `lang` | `string` | Browser default | Interface language. Supported values: `"cs"`, `"cs-cz"`, `"en"`, `"en-us"`, `"en-eu"` |
+| `recurrent` | `boolean` | `false` | Whether to show recurring donation options (monthly vs one-time). |
+
+### Currency Support
+
+The widget supports three currencies with automatic formatting:
+
+- **CZK** (Czech Koruna) - Symbol: Kč
+- **USD** (US Dollar) - Symbol: $  
+- **EUR** (Euro) - Symbol: €
+
+### Language Support
+
+The widget includes built-in translations for:
+
+- **Czech** (`cs`, `cs-cz`) - Full localization including currency formatting
+- **English** (`en`, `en-us`, `en-eu`) - Multiple regional variants with appropriate defaults
+
+### Default Contribution Options
+
+When `contribution-options` is not specified, the widget uses these defaults based on language:
+
+- **Czech (cs-cz)**: `[500, 1000, 5000]` (CZK)
+- **English (en-us)**: `[50, 100, 200]` (USD)  
+- **English (en-eu)**: `[50, 100, 200]` (EUR)
+
+## Examples
+
+### Basic Widget
+
+```html
+<donations-widget pg-url="https://api.example.com/payments"></donations-widget>
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Campaign Progress Widget
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+```html
+<donations-widget 
+  pg-url="https://api.example.com/payments"
+  total-contribution="25000"
+  total-contributors="150"
+  start-date="2024-01-01"
+  currency="USD">
+</donations-widget>
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Localized Widget with Custom Amounts
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+```html
+<donations-widget 
+  pg-url="https://api.example.com/payments"
+  lang="cs-cz"
+  currency="CZK"
+  contribution-options="[200,500,1000,2000]"
+  recurrent="true">
+</donations-widget>
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Complete Widget Setup
 
-## Install Nx Console
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Support Our Cause</title>
+  <style>
+    .donations-widget {
+      width: 100%;
+      max-width: 500px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Help Us Make a Difference</h1>
+    <donations-widget 
+      pg-url="https://your-payment-gateway.com/api"
+      total-contribution="15750"
+      total-contributors="89"
+      start-date="2024-10-01"
+      currency="USD"
+      contribution-options="[25,50,100,250]"
+      lang="en-us"
+      recurrent="true"
+      class="donations-widget">
+    </donations-widget>
+  </div>
+  
+  <script type="module" src="https://your-cdn.com/donations-widget.js"></script>
+</body>
+</html>
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+## Features
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Two-step donation process**: Amount selection → Donor information
+- **Multiple payment options**: Support for various payment methods
+- **Responsive design**: Works on desktop and mobile devices
+- **Accessibility**: Built with screen readers and keyboard navigation in mind
+- **Customizable styling**: Use CSS to match your website's design
+- **Multiple languages**: Built-in Czech and English translations
+- **Recurring donations**: Optional monthly donation support
+- **Campaign tracking**: Display total raised and contributor count
+- **Custom amounts**: Users can enter any donation amount
+- **Form validation**: Comprehensive client-side validation
+- **Company donations**: Special flow for corporate donations with tax receipt requirements
 
-## Useful links
+## Development
 
-Learn more:
+This project uses Nx for development and build management.
 
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Build the Widget
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+npx nx build sandbox
+```
+
+### Run Development Server
+
+```sh
+npx nx serve sandbox
+```
+
+### Run Tests
+
+```sh
+npx nx test sandbox
+```
+
+## Browser Support
+
+The widget supports all modern browsers that support Custom Elements v1:
+- Chrome 67+
+- Firefox 63+
+- Safari 13.1+
+- Edge 79+
+
+For older browsers, you may need to include a Custom Elements polyfill.
