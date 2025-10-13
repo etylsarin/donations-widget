@@ -1,0 +1,32 @@
+# Test files
+test-*.json
+*-test-*.json
+clean-payload.json
+response.json
+
+# Temporary files
+*_temp.*
+*.tmp
+
+# Build artifacts
+*.zip
+dist/
+build/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Local documentation
+FIXES_APPLIED.md
+RESEND_MIGRATION.md
