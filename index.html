@@ -6,34 +6,29 @@
   <title>Sandbox</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script type="module" crossorigin src="/donations-widget/assets/index-qQrimZSA.js"></script>
+  <script type="module" crossorigin src="/donations-widget/assets/donations-widget.js"></script>
   
 </head>
+
 <body style="background: #eee; padding: 20px;" id="SITE_CONTAINER">
   <div aria-label="donations-widget-placeholder"></div>
   <style>
-    .donations-widget {
+    donations-widget {
       width: 100%;
     }
   </style>
   <script type="text/javascript">
+    // Kept deliberately close to the snippet host pages actually run — see wix.html.
     function renderWidget() {
       var widgetPlaceholder = document.querySelector(
         '[aria-label="donations-widget-placeholder"]'
       );
       if (widgetPlaceholder) {
         var widget = document.createElement("donations-widget");
+        widget.setAttribute("lang", "cs-CZ");
         widget.setAttribute(
           "pg-url",
           "https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com"
-        );
-        widget.setAttribute(
-          "style",
-          "position:absolute;z-index:1000;"
-        );
-        widget.setAttribute(
-          "class",
-          "donations-widget"
         );
         widgetPlaceholder.replaceWith(widget);
       }
@@ -45,6 +40,20 @@
       subtree: true,
       childList: true,
     });
+
+    // Load with ?rerender to reproduce what a hydrating host page (Wix) does to us:
+    // the widget we created during parse is thrown away and the observer above builds
+    // a replacement. The replacement has to come back styled — if it does not, the
+    // stylesheet is being applied once per page load instead of once per instance.
+    if (location.search.indexOf("rerender") !== -1) {
+      setTimeout(function () {
+        var widget = document.querySelector("donations-widget");
+        if (!widget) return;
+        var placeholder = document.createElement("div");
+        placeholder.setAttribute("aria-label", "donations-widget-placeholder");
+        widget.replaceWith(placeholder);
+      }, 800);
+    }
   </script>
 </body>
 
