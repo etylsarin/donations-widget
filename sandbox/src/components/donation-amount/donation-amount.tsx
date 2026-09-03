@@ -33,12 +33,19 @@ export const DonationAmount = ({
       setShowCustomInput(false);
       setRadioValue(parseInt(value));
     }
-    onChange?.(parseInt(value) || 0);
+    // Guard the amount that ends up in the payment request: abs() so a pasted or
+    // spinner-produced negative can never reach the gateway, radix 10 so a leading
+    // zero is not read as octal.
+    onChange?.(Math.abs(parseInt(value, 10)) || 0);
   };
   const handleClick = () => {
     setShowCustomInput(true);
     setRadioValue(undefined);
   };
+  // The amount is a number input, so the browser would otherwise accept "1e5", "+2"
+  // and "-3" as valid keystrokes.
+  const handleKeyDown = (event: KeyboardEvent) =>
+    ['e', 'E', '+', '-'].includes(event.key) && event.preventDefault();
   return (
     <>
       {presetOptions?.length ? (
@@ -51,21 +58,26 @@ export const DonationAmount = ({
           onSelect={handleChange(DonationType.PRESET)}
         />
       ) : null}
-      <fieldset id="toggle">
+      <fieldset id="toggle" className={styles.fieldset}>
         {showCustomInput ? (
-          <Input
-            label={t('cunstomAmountLabel')}
-            className={styles.amount}
-            name="amount"
-            type="number"
-            min={1}
-            max={1000000}
-            step={1}
-            placeholder={t('customAmountPlaceholder')}
-            required={showCustomInput}
-            autofocus={true}
-            onChange={handleChange(DonationType.CUSTOM)}
-          />
+          <>
+            <Input
+              label={t('cunstomAmountLabel')}
+              className={styles.amount}
+              name="amount"
+              type="number"
+              min={1}
+              max={1000000}
+              step={1}
+              required={showCustomInput}
+              autofocus={true}
+              onChange={handleChange(DonationType.CUSTOM)}
+              onKeyDown={handleKeyDown}
+            />
+            <span className={styles.currency}>
+              {t('customAmountPlaceholder')}
+            </span>
+          </>
         ) : (
           <button
             type="button"

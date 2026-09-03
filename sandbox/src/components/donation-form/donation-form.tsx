@@ -32,7 +32,7 @@ export const DonationForm = ({
     { label: t('once'), value: 'once' },
     { label: t('recurrent'), value: 'recurrent' },
   ];
-  const defaultValue = props.contributionOptions?.[0] || 0;
+  const defaultValue = props.contributionOptions?.[1] || 0;
   const [amount, setAmount] = useState<number>(defaultValue);
   const [newsletterOptIn, setNewsletterOptIn] = useState<boolean>(false);
   const [confirmationOptIn, setConfirmationOptIn] = useState<boolean>(false);

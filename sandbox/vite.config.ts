@@ -21,9 +21,13 @@ export default defineConfig({
     host: 'localhost',
   },
   plugins: [preact(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md']), cssInjectedByJsPlugin({
-    injectCode: (cssCode: string) => {
-        return `try{if(typeof document !== 'undefined'){var elementStyle = document.createElement('style');elementStyle.appendChild(document.createTextNode(${cssCode}));document.querySelectorAll('donations-widget').forEach((item) => {item.appendChild(elementStyle)});}}catch(e){console.error('vite-plugin-css-injected-by-js', e);}`
-    }
+    // Hand the compiled CSS to the bundle as a plain string instead of injecting it.
+    // The widget renders it into its own shadow root — see src/styles.ts. Injecting
+    // here would only ever reach the elements that happen to be in the DOM at load
+    // time, which is not the same set the visitor ends up looking at on a host page
+    // that re-renders.
+    injectCode: (cssCode: string) =>
+      `try{globalThis.__DONATIONS_WIDGET_CSS__=${cssCode}}catch(e){console.error('donations-widget: could not stage styles',e)}`,
   })],
   // Uncomment this if you are using workers.
   // worker: {
@@ -35,6 +39,16 @@ export default defineConfig({
     reportCompressedSize: true,
     commonjsOptions: {
       transformMixedEsModules: true,
+    },
+    rollupOptions: {
+      output: {
+        // Host pages embed this file by URL, and `gh-pages` wipes the branch on every
+        // deploy. A content hash in the name therefore breaks every existing embed the
+        // moment we ship anything — keep the entry name stable instead.
+        entryFileNames: 'assets/donations-widget.js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name][extname]',
+      },
     },
   },
   test: {

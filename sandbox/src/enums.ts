@@ -1,7 +1,14 @@
 export enum Lang {
+  CS = 'cs',
   CS_CZ = 'cs-cz',
+  EN = 'en',
   EN_US = 'en-us',
+  EN_EU = 'en-eu',
 }
+
+// The languages the widget actually renders in. `Lang.CS` and `Lang.EN` are accepted
+// as input (a bare `<html lang="cs">` is common) but always resolve to one of these.
+export type ResolvedLang = Lang.CS_CZ | Lang.EN_US | Lang.EN_EU;
 
 export enum Currency {
   CZK = 'CZK',

@@ -1,4 +1,4 @@
-import { Currency, Lang } from './enums';
+import { Currency, ResolvedLang } from './enums';
 
 export interface WidgetProps {
   pgUrl: string;
@@ -7,6 +7,6 @@ export interface WidgetProps {
   totalContributors?: number;
   currency?: Currency;
   contributionOptions?: number[];
-  lang?: Lang;
+  lang?: ResolvedLang;
   recurrent?: boolean;
 }

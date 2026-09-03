@@ -1,28 +1,95 @@
-<script type="module" src="https://etylsarin.github.io/donations-widget/assets/index-BxAaaLUu.js"></script>
-<script type="text/javascript">
-  function renderWidget() {
-    var widgetPlaceholder = document.querySelector(
-      '[aria-label="donations-widget-placeholder"]'
-    );
-    if (widgetPlaceholder) {
-      var widget = document.createElement("donations-widget");
-      widget.setAttribute("lang", "cs-CZ");
-      widget.setAttribute(
-        "pg-url",
-        "https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com"
-      );
-      widget.setAttribute(
-        "style",
-        "position:absolute;z-index:1000;min-width:400px;max-width:540px;"
-      );
-      widgetPlaceholder.replaceWith(widget);
-    }
+<!--
+  Embed snippet for host pages (Wix: Settings -> Custom Code -> Body - end).
+
+  Two things this has to survive, both learned the hard way on happyheartsczech.org:
+
+  1. The host re-renders. Wix hydrates after our element is already in the page,
+     throws it away and puts the original placeholder back, so the widget the visitor
+     actually sees is usually the *second* one created on that page load. The observer
+     below rebuilds it every time that happens.
+
+  2. Older bundles style only the first instance. Builds up to and including
+     index-qQrimZSA.js pushed their stylesheet into whatever shadow roots existed when
+     the custom element was defined — which is the instance that then gets thrown away.
+     `remembered` below carries that stylesheet across to the replacement. Against a
+     bundle that styles itself (donations-widget.js and later) it never fires, so this
+     snippet is safe to leave in place permanently.
+-->
+<style>
+  .donations-widget {
+    width: 100%;
   }
-  renderWidget();
-  new MutationObserver(function () {
-    renderWidget();
-  }).observe(document.querySelector("#SITE_CONTAINER"), {
-    subtree: true,
-    childList: true,
-  });
+</style>
+<script type="module" src="https://etylsarin.github.io/donations-widget/assets/donations-widget.js"></script>
+<script type="text/javascript">
+  (function () {
+    var TAG = "donations-widget";
+    var PLACEHOLDER = '[aria-label="donations-widget-placeholder"]';
+    var PG_URL = "https://flc1zheail.execute-api.eu-central-1.amazonaws.com";
+    var LANG = "cs-CZ";
+
+    var previous = null;   // last widget we made, kept so we can read its stylesheet
+    var remembered = null; // that stylesheet, once we have seen one
+    var queued = false;
+
+    function stylesheetOf(widget) {
+      var root = widget && widget.shadowRoot;
+      var style = root && root.querySelector("style");
+      return style && style.textContent ? style.textContent : null;
+    }
+
+    function sync() {
+      queued = false;
+      var placeholder = document.querySelector(PLACEHOLDER);
+
+      if (placeholder) {
+        // Read the outgoing instance before we lose track of it.
+        remembered = remembered || stylesheetOf(previous);
+
+        var widget = document.createElement(TAG);
+        widget.setAttribute("lang", LANG);
+        widget.setAttribute("pg-url", PG_URL);
+        widget.setAttribute("style", "position:absolute;z-index:1000;");
+        widget.setAttribute("class", "donations-widget");
+        previous = widget;
+        // Connecting the element renders it synchronously, so any styling we add
+        // afterwards is safe; adding it first would be discarded by that render.
+        placeholder.replaceWith(widget);
+      }
+
+      remembered = remembered || stylesheetOf(previous);
+      if (remembered && previous && previous.shadowRoot && !stylesheetOf(previous)) {
+        var style = document.createElement("style");
+        style.textContent = remembered;
+        previous.shadowRoot.appendChild(style);
+      }
+    }
+
+    // Wix mutates the page constantly; collapse a burst into a single pass.
+    // setTimeout rather than requestAnimationFrame on purpose: rAF does not run in a
+    // background tab, and detaching it from window trips "Illegal invocation".
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      setTimeout(sync, 0);
+    }
+
+    try {
+      sync();
+
+      new MutationObserver(schedule).observe(
+        document.querySelector("#SITE_CONTAINER") || document.body,
+        { subtree: true, childList: true }
+      );
+
+      // The element is usually still undefined on the first pass — the module script
+      // is deferred — so its shadow root does not exist yet. Run again once it does.
+      if (window.customElements) {
+        customElements.whenDefined(TAG).then(schedule);
+      }
+      setTimeout(schedule, 1500);
+    } catch (e) {
+      console.error("donations-widget embed", e);
+    }
+  })();
 </script>

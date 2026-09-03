@@ -1,6 +1,7 @@
 import { Input } from '../input/input';
 import { Submit } from '../submit/submit';
 import styles from './donor-form.module.css';
+import { Legal } from '../legal/legal';
 import { useContext, useState } from 'preact/hooks';
 import { Translations } from '../../context';
 import { formatStringNumber } from '../../utils/utils';
@@ -91,6 +92,7 @@ export const DonorForm = ({ status, donation, onSubmit, onBack }: DonorFormProps
           onChange={(value) => handleInput('email', value)}
         />
         <Submit label={submitLabel} status={status} />
+        <Legal />
       </form>
     </>
   );
