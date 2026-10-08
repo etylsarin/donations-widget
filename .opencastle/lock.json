@@ -1,0 +1,294 @@
+{
+  "$comment": "Written by opencastle sync — do not edit. Change .opencastle/ (or a baseline) and run sync; opencastle review explains a change.",
+  "lockfileVersion": 1,
+  "opencastle": "1.11.0",
+  "targets": [
+    "cursor"
+  ],
+  "integrations": [
+    "chrome-devtools",
+    "cypress",
+    "github",
+    "nx",
+    "vitest"
+  ],
+  "layers": [
+    {
+      "id": "opencastle",
+      "kind": "core",
+      "version": "1.11.0"
+    },
+    {
+      "id": "project",
+      "kind": "project"
+    }
+  ],
+  "content": {
+    "agents/architect": {
+      "from": "opencastle",
+      "sha": "42a2e00121f1",
+      "description": "Software architect: strategic decisions, roadmap planning, ADRs, system design, technology evaluation."
+    },
+    "agents/developer": {
+      "from": "opencastle",
+      "sha": "edd57c48cc64",
+      "description": "Full-stack developer: pages, components, routing, layouts, API routes and their contracts, server-side logic, feature implementation."
+    },
+    "agents/devops-expert": {
+      "from": "opencastle",
+      "sha": "ec05cf4af51a",
+      "description": "DevOps and release: deployments, CI/CD, cron jobs, security headers, caching, environment variables, plus pre-release verification and changelogs."
+    },
+    "agents/performance-expert": {
+      "from": "opencastle",
+      "sha": "1717192fab8e",
+      "description": "Performance optimization expert: frontend, backend, build performance."
+    },
+    "agents/researcher": {
+      "from": "opencastle",
+      "sha": "dcc953eb2377",
+      "description": "Codebase exploration specialist: deep research, pattern discovery, git archaeology, context gathering before implementation. Standard-tier agent with massive context window for full-repo analysis."
+    },
+    "agents/reviewer": {
+      "from": "opencastle",
+      "sha": "2e61fe9d3987",
+      "description": "Mandatory fast reviewer: validates every agent delegation output before acceptance. Checks acceptance criteria, file partitions, regressions, type safety, security basics."
+    },
+    "agents/security-expert": {
+      "from": "opencastle",
+      "sha": "fbac31b1733d",
+      "description": "Security expert: authentication, authorization, data access policies, security headers, input validation, API security, vulnerability management."
+    },
+    "agents/team-lead": {
+      "from": "opencastle",
+      "sha": "dcd50f44c0ef",
+      "description": "Coordinates work that spans several areas: plans it, hands each part to the specialist agent that fits, checks every result, and delivers one reviewed pull request."
+    },
+    "agents/testing-expert": {
+      "from": "opencastle",
+      "sha": "16057d22a767",
+      "description": "Testing expert: E2E tests, integration tests, browser validation, test suites via browser automation, test file authoring."
+    },
+    "agents/ui-ux-expert": {
+      "from": "opencastle",
+      "sha": "361abf6bb4e9",
+      "description": "UI/UX expert: designs, builds accessible, consistent UI components with deep design system knowledge."
+    },
+    "agents/writer": {
+      "from": "opencastle",
+      "sha": "f103cb52f6a8",
+      "description": "Writer: user-facing copy, project documentation, and search metadata — UI microcopy, error messages, docs, roadmaps, meta tags, structured data."
+    },
+    "instructions/general": {
+      "from": "opencastle",
+      "sha": "834eb302db86",
+      "tokens": 489
+    },
+    "instructions/project-context": {
+      "from": "project",
+      "sha": "a98d5dd6e071",
+      "tokens": 2033
+    },
+    "prompts/bootstrap-customizations": {
+      "from": "opencastle",
+      "sha": "072c80356588",
+      "description": "Completes the .opencastle/ project files on an existing codebase: checks what opencastle init read from the code, and fills in the \"Still to describe\" list at the end of each file by reading the code."
+    },
+    "prompts/brainstorm": {
+      "from": "opencastle",
+      "sha": "51b6c89cb8c9",
+      "description": "Collaborative brainstorm to explore requirements, approaches, trade-offs BEFORE committing to a plan. Use when task has ambiguity, multiple valid approaches, or significant design decisions."
+    },
+    "prompts/bug-fix": {
+      "from": "opencastle",
+      "sha": "de5b2b147ee1",
+      "description": "Fix a bug in this session: reproduce it, find the root cause, fix it with a regression test, verify it, and open a pull request."
+    },
+    "prompts/convoy": {
+      "from": "opencastle",
+      "sha": "5084790263af",
+      "description": "Plan work as a convoy — tasks that agents run in parallel, each in its own git worktree, merged onto one branch — with the experimental convoy engine, and hand the plan over to run."
+    },
+    "prompts/create-skill": {
+      "from": "opencastle",
+      "sha": "c78b281ffc04",
+      "description": "Scaffold new skill file with proper frontmatter, structure, registration. Use when adding new domain skill to AI configuration."
+    },
+    "prompts/implement-feature": {
+      "from": "opencastle",
+      "sha": "6c46f9352e6a",
+      "description": "Implement a feature or change in this session — a roadmap item or a small follow-up: understand it, plan it to its size, build it with tests, verify it, have it reviewed, and open a pull request."
+    },
+    "prompts/resolve-pr-comments": {
+      "from": "opencastle",
+      "sha": "c46a09148a39",
+      "description": "Resolve GitHub PR review comments by reading them, grouping by file, applying fixes systematically."
+    },
+    "skills/accessibility-standards": {
+      "from": "opencastle",
+      "sha": "4bda64476208",
+      "description": "WCAG 2.2 AA rules for HTML, CSS and React: contrast, keyboard, screen-reader semantics, voice access, forms and tables. Use when building or changing UI components, forms, navigation or any user-faci…"
+    },
+    "skills/api-patterns": {
+      "from": "opencastle",
+      "sha": "621ee5f736b0",
+      "description": "Conventions for HTTP endpoints, server actions and calls to external APIs: the contract, input validation, error shapes, status codes, versioning, pagination, retries and caching. Use when adding or …"
+    },
+    "skills/browser-testing": {
+      "from": "plugin:chrome-devtools",
+      "sha": "7b9bc22fb86e",
+      "description": "Browser testing through the Chrome DevTools MCP: navigation, DOM snapshots, scripted assertions, responsive checks, console and performance traces. Use when verifying a UI change in Chrome, checking …"
+    },
+    "skills/cypress-testing": {
+      "from": "plugin:cypress",
+      "sha": "f9f10e674867",
+      "description": "Cypress E2E and component tests: cy.intercept(), cy.session(), custom commands and CI artifacts. Use when writing or debugging Cypress specs, or running Cypress in CI."
+    },
+    "skills/data-engineering": {
+      "from": "opencastle",
+      "sha": "1a0b17b8caf1",
+      "description": "Method for scraping, transforming, validating and loading data through NDJSON. Use when building a scraper or ETL step, validating an NDJSON feed, or importing data into a CMS or database."
+    },
+    "skills/deployment-infrastructure": {
+      "from": "opencastle",
+      "sha": "ef2a6e2ea1a5",
+      "description": "Deployment pipelines, environment variables, cron routes, caching headers, releases and rollback. Use when changing CI/CD or platform deploy config (Docker, Vercel, AWS, nginx), env vars or cache hea…"
+    },
+    "skills/fast-review": {
+      "from": "opencastle",
+      "sha": "d3e2ff0d46ef",
+      "description": "One independent reviewer checks a change against its acceptance criteria and answers PASS or FAIL before it is accepted. Use before accepting delegated work, before delivering a change, or when someo…"
+    },
+    "skills/frontend-design": {
+      "from": "opencastle",
+      "sha": "844db2674e41",
+      "description": "Visual direction for distinctive pages: a named aesthetic, type pairing, color and spacing tokens, and motion. Use when designing a landing page, marketing site or UI theme where the look itself matt…"
+    },
+    "skills/git-workflow": {
+      "from": "opencastle",
+      "sha": "1fa1cd0f1e6c",
+      "description": "Branch names, commit messages, pushing and opening a pull request, and working with the task tracker. Use when branching, committing, pushing or opening a PR."
+    },
+    "skills/github-platform": {
+      "from": "plugin:github",
+      "sha": "2d08683d60e8",
+      "description": "GitHub pull requests, review threads, failing Actions checks and stacked pull requests, through GitHub's MCP server and the gh CLI. Use when opening, reviewing or updating a pull request, fixing a fa…"
+    },
+    "skills/nx-workspace": {
+      "from": "plugin:nx",
+      "sha": "8321c2308ab7",
+      "description": "Nx workspace rules: running targets, affected commands, generators, project.json and the Nx MCP tools. Use when running or generating anything in an Nx monorepo, editing project.json, or reading its …"
+    },
+    "skills/panel-majority-vote": {
+      "from": "opencastle",
+      "sha": "239a49adcb81",
+      "description": "Three isolated reviewers vote PASS or BLOCK on a high-risk change; the majority decides, and every MUST-FIX any of them raises is fixed. Use for changes to auth, payments, data migrations or anything…"
+    },
+    "skills/security-hardening": {
+      "from": "opencastle",
+      "sha": "4ba426ecb447",
+      "description": "Security rules for authentication, authorization, data access policies, input handling, headers and CSP, secrets and scheduled routes. Use when building an auth flow, adding an endpoint or handler, w…"
+    },
+    "skills/self-improvement": {
+      "from": "opencastle",
+      "sha": "a841ce833947",
+      "description": "Keeps the team's memory: where what you learned goes (your memory, shared with the team when it is about the project, or a lesson in .opencastle/lessons/), and how lessons are cited, re-verified and …"
+    },
+    "skills/seo-patterns": {
+      "from": "opencastle",
+      "sha": "f9d416dee865",
+      "description": "Technical SEO: meta tags, Open Graph, canonical URLs, JSON-LD structured data, sitemaps and robots.txt. Use when adding or fixing any of these, or when pages are not being crawled or indexed."
+    },
+    "skills/technical-writing": {
+      "from": "opencastle",
+      "sha": "181a435855de",
+      "description": "Standard for technical prose in four layers: Diataxis document modes, Google developer style, Simplified Technical English and Global English, with templates for ADRs, changelogs and known issues. Us…"
+    },
+    "skills/testing-workflow": {
+      "from": "opencastle",
+      "sha": "56a9317ca23a",
+      "description": "How to test a change: test first, what to cover, what to mock, and the anti-patterns that let tests pass without proving anything. Use when writing or planning tests, mocking a dependency, fixing a f…"
+    },
+    "skills/typescript-best-practices": {
+      "from": "opencastle",
+      "sha": "867b81e93bf6",
+      "description": "Type design in TypeScript: discriminated unions, branded types, narrowing, exhaustiveness and boundary validation. Use when modelling domain types, tightening strictness or generics, removing `as` ca…"
+    },
+    "skills/unslop": {
+      "from": "opencastle",
+      "sha": "3368351cec04",
+      "description": "Removes AI tells from prose: puffery, AI vocabulary, em dashes, hedging, filler and abstract metaphor nouns. Use when writing or editing prose a person reads: docs, README files, PR descriptions, com…"
+    },
+    "skills/validation-gates": {
+      "from": "opencastle",
+      "sha": "47e1c21751d0",
+      "description": "The checks a change passes before it is done or merged: secrets, the project's tests, lint and build, size, new dependencies, the browser for UI, review, regression and a smoke test. Use when decidin…"
+    },
+    "skills/vitest-testing": {
+      "from": "plugin:vitest",
+      "sha": "b87e54400bf7",
+      "description": "Vitest gotchas for mocking, timers, type tests and coverage. Use when writing or debugging Vitest tests, configuring vitest.config, or a coverage threshold fails."
+    },
+    "skills/writing-for-agents": {
+      "from": "opencastle",
+      "sha": "76bdd3e2e318",
+      "description": "Levers for writing documents an agent reads: context pointers, progressive disclosure, completion criteria, leading words and pruning. Use when creating or editing a skill, an agent, an instruction f…"
+    },
+    "workflows/data-pipeline": {
+      "from": "opencastle",
+      "sha": "032e19f08cd5"
+    },
+    "workflows/database-migration": {
+      "from": "opencastle",
+      "sha": "52477cff66cb"
+    },
+    "workflows/performance-optimization": {
+      "from": "opencastle",
+      "sha": "bcd264ffafde"
+    },
+    "workflows/refactoring": {
+      "from": "opencastle",
+      "sha": "0e65b8a5ea8f"
+    },
+    "workflows/schema-changes": {
+      "from": "opencastle",
+      "sha": "3ba5f81a826a"
+    },
+    "workflows/security-audit": {
+      "from": "opencastle",
+      "sha": "9d4c37568678"
+    },
+    "workflows/shared-delivery-phase": {
+      "from": "opencastle",
+      "sha": "d54d2b95c977"
+    }
+  },
+  "mcp": {
+    "GitHub": {
+      "from": "plugin:github",
+      "transport": "http",
+      "launch": "https://api.githubcopilot.com/mcp/",
+      "env": [
+        "GITHUB_PERSONAL_ACCESS_TOKEN"
+      ],
+      "auth": "env-token"
+    },
+    "Nx": {
+      "from": "plugin:nx",
+      "transport": "stdio",
+      "launch": "npx --no nx mcp",
+      "auth": "none"
+    },
+    "chrome-devtools": {
+      "from": "plugin:chrome-devtools",
+      "transport": "stdio",
+      "launch": "npx -y chrome-devtools-mcp@1.10.1",
+      "auth": "none"
+    }
+  },
+  "context": {
+    "tokens": 4731,
+    "instructions": 2522,
+    "index": 2209
+  }
+}

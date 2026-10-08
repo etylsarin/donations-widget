@@ -1,0 +1,30 @@
+---
+description: "Workflow: performance-optimization"
+alwaysApply: false
+---
+
+<!-- ⚠️ This file is managed by OpenCastle. Edits will be overwritten on update. Customize in the .opencastle/ directory instead. -->
+
+# Workflow: Performance Optimization
+
+For making something measurably faster. Never optimize without a measurement.
+
+1. **Measure the baseline** (Performance Expert). A production build of the affected apps; Lighthouse on the key pages — the most traffic, the heaviest rendering — at least three runs, the median; the bundle size; the Core Web Vitals (LCP, INP, CLS) and TTFB; server render time.
+2. **Find the bottlenecks** (Performance Expert). The top three, ranked by what the user feels: the largest chunks, client-side JavaScript that need not ship, images, caching headers, slow queries.
+3. **Optimize** — in parallel where the files do not overlap: bundle and code splitting (Performance Expert), images (UI/UX Expert), data fetching and caching (Developer), indexes and query plans (Data Engineer).
+4. **Verify** (Performance Expert). The same pages, the same build, the same runs: before against after, with no visual regression (browser) and no functional one (the test suite). Keep a change only if it measurably helps.
+
+## Delivery
+
+#### Steps
+
+1. **Commit** to the feature branch, with the tracker issue ID in the messages when there is one.
+2. **Push** it: `git push -u origin <branch>`.
+3. **Open a pull request**, with the body written to a file first so the shell cannot mangle it:
+   ```bash
+   GH_PAGER=cat gh pr create --base main --title "<title>" --body-file /tmp/pr-body.md
+   ```
+4. **Do NOT merge** — a person reviews and merges it.
+5. **Link it** from the tracker issue, when there is one.
+
+Whoever coordinates the work owns delivery: the Team Lead creates the branch before delegating, sub-agents work on that branch, and only the Team Lead pushes and opens the pull request.

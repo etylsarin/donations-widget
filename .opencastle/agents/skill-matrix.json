@@ -1,0 +1,177 @@
+{
+  "bindings": {
+    "framework": {
+      "entries": [],
+      "description": "SSR/SSG, routing, layouts, Server/Client Components"
+    },
+    "database": {
+      "entries": [],
+      "description": "Schema, migrations, auth flow, roles"
+    },
+    "cms": {
+      "entries": [],
+      "description": "Document types, queries, schema management"
+    },
+    "deployment": {
+      "entries": [],
+      "description": "Hosting, cron jobs, env vars, caching, headers"
+    },
+    "codebase-tool": {
+      "entries": [
+        {
+          "name": "NX",
+          "skill": "nx-workspace"
+        }
+      ],
+      "description": "Task running, building, linting, testing, code generation"
+    },
+    "testing": {
+      "entries": [
+        {
+          "name": "Vitest",
+          "skill": "vitest-testing"
+        }
+      ],
+      "description": "Unit testing frameworks, coverage, test planning"
+    },
+    "e2e-testing": {
+      "entries": [
+        {
+          "name": "Cypress",
+          "skill": "cypress-testing"
+        },
+        {
+          "name": "Chrome DevTools",
+          "skill": "browser-testing"
+        }
+      ],
+      "description": "Browser automation, E2E testing, viewport testing, visual validation"
+    },
+    "task-management": {
+      "entries": [],
+      "description": "Issue tracking, naming, priorities, workflow states"
+    },
+    "source-control": {
+      "entries": [
+        {
+          "name": "GitHub",
+          "skill": "github-platform"
+        }
+      ],
+      "description": "Pull and merge requests, code review, repository issues, CI status"
+    }
+  },
+  "agents": {
+    "Developer": {
+      "slots": [
+        "framework"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "api-patterns",
+        "security-hardening"
+      ]
+    },
+    "UI/UX Expert": {
+      "slots": [
+        "e2e-testing"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "frontend-design",
+        "accessibility-standards"
+      ]
+    },
+    "Content Engineer": {
+      "slots": [
+        "cms"
+      ],
+      "directSkills": [
+        "validation-gates"
+      ]
+    },
+    "Testing Expert": {
+      "slots": [
+        "e2e-testing",
+        "testing"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "testing-workflow"
+      ]
+    },
+    "Security Expert": {
+      "slots": [
+        "database"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "security-hardening"
+      ]
+    },
+    "Performance Expert": {
+      "slots": [],
+      "directSkills": [
+        "validation-gates"
+      ]
+    },
+    "Architect": {
+      "slots": [
+        "codebase-tool"
+      ],
+      "directSkills": []
+    },
+    "Researcher": {
+      "slots": [],
+      "directSkills": [
+        "self-improvement"
+      ]
+    },
+    "Team Lead (OpenCastle)": {
+      "slots": [
+        "task-management",
+        "source-control"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "fast-review",
+        "panel-majority-vote"
+      ]
+    },
+    "Writer": {
+      "slots": [
+        "cms",
+        "framework",
+        "knowledge-management"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "seo-patterns",
+        "technical-writing",
+        "unslop"
+      ]
+    },
+    "DevOps & Release": {
+      "slots": [
+        "deployment",
+        "observability",
+        "source-control",
+        "codebase-tool"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "deployment-infrastructure"
+      ]
+    },
+    "Data Engineer": {
+      "slots": [
+        "database"
+      ],
+      "directSkills": [
+        "validation-gates",
+        "security-hardening",
+        "data-engineering"
+      ]
+    }
+  }
+}
