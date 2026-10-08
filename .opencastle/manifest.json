@@ -1,0 +1,63 @@
+{
+  "version": "1.11.0",
+  "ide": "cursor",
+  "ides": [
+    "cursor"
+  ],
+  "installedAt": "2026-03-09T10:40:21.625Z",
+  "updatedAt": "2026-10-08T23:02:39.093Z",
+  "managedPaths": {
+    "framework": [
+      ".cursor/rules/agents/",
+      ".cursor/rules/skills/",
+      ".cursor/rules/agent-workflows/",
+      ".cursor/rules/prompts/",
+      ".cursor/rules/general.mdc",
+      ".cursor/rules/ai-optimization.mdc",
+      ".cursor/rules/",
+      ".agents/skills/"
+    ],
+    "customizable": [
+      ".opencastle/",
+      ".cursor/mcp.json"
+    ],
+    "merged": [
+      ".cursorrules"
+    ]
+  },
+  "stack": {
+    "ides": [
+      "cursor"
+    ],
+    "techTools": [
+      "cypress",
+      "vitest",
+      "nx",
+      "chrome-devtools"
+    ],
+    "teamTools": [
+      "github"
+    ]
+  },
+  "repoInfo": {
+    "packageManager": "yarn",
+    "monorepo": "nx",
+    "mcpConfig": true,
+    "testing": [
+      "cypress",
+      "vitest",
+      "chrome-devtools"
+    ],
+    "codeHosts": [
+      "github"
+    ],
+    "configFiles": [
+      ".cursor/mcp.json",
+      "jest.config.ts",
+      "nx.json",
+      "package.json",
+      "yarn.lock"
+    ]
+  },
+  "commandNamespace": "oc"
+}

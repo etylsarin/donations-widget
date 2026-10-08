@@ -1,0 +1,125 @@
+````instructions
+# Project Context
+
+## Overview
+
+**Donations Widget** (`@mastercard/donations-widget`, private, v0.0.0) — an embeddable `<donations-widget>` custom element, built with Preact, that takes card donations for HappyHearts Czech Republic through the GP webpay payment gateway. Two-step form (amount → donor details), then a redirect to GP webpay; on return the widget asks a Lambda to email a confirmation. Backed by two AWS Lambda functions in this repo. No tests and no CI yet; the payment Lambda points at GP webpay's **test** gateway.
+
+Gotchas verified in the code:
+- `currency` attribute is parsed but never used: the currency shown and charged comes from `lang` (`cs-cz` → CZK, `en-us` → USD, `en`/`en-eu` → EUR).
+- `contribution-options` is split on `,` and `parseInt`-ed: write `50,100,200`. The README's `[50,100,200]` makes the first option `NaN`.
+- `pg-url` is not in the observed-attributes list in `sandbox/src/index.ts`, so set it before the element is attached, as `sandbox/index.html` does.
+
+## System Architecture
+
+```
+Host page (e.g. Wix: sandbox/wix.html)
+  └─ <script> bundle from GitHub Pages ── <donations-widget pg-url=…>  (open shadow root, Preact)
+        │ 1. POST {pg-url}/integration/hh_request_payment
+        ▼
+  AWS API Gateway (eu-central-1) ──▶ lambda/index.mjs
+        │   signs a GP webpay CREATE_ORDER (private key read from S3), returns the gateway URL
+        ▼
+  window.parent redirected to GP webpay ──▶ back to host page with ?RESULTTEXT=…&ORDERNUMBER=…
+        │ 2. RESULTTEXT=OK → POST {pg-url}/integration/hh_confirm_payment
+        ▼
+  lambda_mailer/lambda/index.mjs
+        reads S3 audit_logs/{orderNumber}.json + email_templates/donation_confirmation_{lang}.html,
+        sends via Resend, moves the log to audit_logs_mailed/
+```
+
+Route → Lambda pairing is by payload shape; the API Gateway wiring is not in the repo. Detail in `.opencastle/stack/api-config.md`.
+
+## Tech Stack
+
+| Layer | Technology | Version | Notes |
+|-------|-----------|---------|-------|
+| UI | Preact + preact-custom-element | 10.26.9 / 4.3.0 | Registered as `donations-widget` with `{ shadow: true }` |
+| Language | TypeScript | 5.7.3 | `sandbox/tsconfig.json` (strict, `jsxImportSource: preact`) |
+| Build | Vite + @preact/preset-vite | 5.4.20 / 2.8.3 | `vite-plugin-css-injected-by-js` 3.5.2 injects CSS into the shadow root |
+| Monorepo | Nx | 20.4.6 | One project: `sandbox`; `@nx/vite`, `@nx/eslint`, `@nxext/preact` |
+| Unit tests | Vitest (jsdom) | 2.1.9 | Configured in `sandbox/vite.config.ts`; no test files yet |
+| E2E | Cypress | 13.13.3 | Installed only; no Cypress config or e2e project |
+| Lint / format | ESLint (flat, `@nx/eslint-plugin`) / Prettier | 9.20.1 / 2.6.2 | Prettier: `singleQuote` |
+| Backend | AWS Lambda, Node.js ES modules (`.mjs`) | — | `lambda/`, `lambda_mailer/lambda/`; each has its own `package.json` |
+| Payments | GP webpay via `@topmonks/gpwebpay` | 0.1.2 | Vendored in `lambda/node_modules/` (committed) |
+| Email | Resend | ^4.0.1 | `lambda_mailer`; plus `@aws-sdk/client-s3` ^3.758.0, `currency-codes` ^2.2.0 |
+| Storage | AWS S3 | — | Private key, `audit_logs/`, `audit_logs_mailed/`, `email_templates/` |
+| Hosting | GitHub Pages via `gh-pages` | 6.1.1 | `gh-pages` branch of `etylsarin/donations-widget` |
+| Package manager | Yarn (v1 lockfile) | — | Root only; Lambdas use npm (`lambda/package-lock.json`) |
+
+## Project Structure
+
+| Path | Purpose |
+|------|---------|
+| `sandbox/` | The widget — Nx app `sandbox` (Preact + Vite); the only Nx project |
+| `sandbox/src/index.ts` | Registers the `<donations-widget>` custom element and its attributes |
+| `sandbox/src/App.tsx` | Widget root: stage/status state, payment request, return handling, confirmation call |
+| `sandbox/src/components/` | UI components, one folder each (`.tsx` + `.module.css`); `with-props/` parses attributes |
+| `sandbox/src/utils/utils.ts` | Translations (cs, en per currency), number formatting, order-number generation |
+| `sandbox/src/enums.ts` | `Lang`, `Currency`, `CurrencyCode` (ISO 4217 numeric), `Status`, `Stage`, API `Routes` |
+| `sandbox/index.html`, `sandbox/wix.html` | Dev page; embed snippet for a Wix site using the GitHub Pages bundle |
+| `lambda/` | Payment-request Lambda: builds the signed GP webpay order URL |
+| `lambda_mailer/` | Confirmation-email Lambda (`lambda/index.mjs`), HTML templates (`templates/`: cs, de, en, sk), S3 upload script (`uploads/`) |
+| `.github/instructions/`, `.github/chatmodes/` | Copilot instruction files: frontend, GP webpay, AWS, security |
+| `dist/sandbox/` | Build output (gitignored), published to `gh-pages` |
+
+## Apps & Deployment
+
+| App | Production URL | Dev Port |
+|-----|---------------|----------|
+| `sandbox` (widget bundle) | https://etylsarin.github.io/donations-widget/ (GitHub Pages, from `sandbox/wix.html`) | 4200 `nx serve` (path `/donations-widget/`), 4300 `nx preview` |
+| `lambda` (payment request) | `https://wazxcc9io0.execute-api.eu-central-1.amazonaws.com/integration/hh_request_payment` (the `pg-url` in `sandbox/index.html`) | none — no local runner |
+| `lambda_mailer` (confirmation email) | same base + `/integration/hh_confirm_payment` | none — no local runner |
+
+## Key Commands
+
+Package manager: **yarn** (root). Lambdas: npm, no scripts.
+
+```bash
+yarn install
+npx nx serve sandbox        # http://localhost:4200/donations-widget/
+npx nx build sandbox        # → dist/sandbox (production mode by default)
+npx nx preview sandbox      # built app on :4300
+npx nx test sandbox         # Vitest; no test files exist yet
+npx nx lint sandbox
+yarn deploy:sandbox         # gh-pages -d dist/sandbox — build first
+cd lambda_mailer/uploads && pwsh ./upload-templates.ps1   # needs S3_BUCKET_NAME; paths are relative to uploads/
+```
+
+## Routes
+
+No client-side routing. The widget has two stages, `DONATION` → `DONOR`, and statuses `NEW`, `BUSY`, `DONE`, `ERROR`. After GP webpay it reads `RESULTTEXT` and `ORDERNUMBER` from `window.parent.location.search`: `OK` → `DONE` and a confirmation call; anything else → `ERROR`.
+
+API calls, relative to `pg-url`: `POST /integration/hh_request_payment`, `POST /integration/hh_confirm_payment` (`sandbox/src/enums.ts` → `Routes`). See `.opencastle/stack/api-config.md`.
+
+## Key Documentation
+
+| Document | Description |
+|----------|-------------|
+| `README.md` | Embed snippet, widget attributes, languages, dev commands |
+| `lambda_mailer/ENV_CONFIGURATION.md` | Mailer environment variables, IAM permissions, AWS CLI setup |
+| `lambda_mailer/templates/README.md` | Email template placeholders, S3 location, fallback order |
+| `.github/instructions/gpwebpay-integration.instructions.md` | GP webpay HTTP API: parameters, DIGEST signing, response codes, test cards |
+| `.github/instructions/donation-widget-frontend.instructions.md` | Frontend rules: accessibility, validation, i18n, payment flow |
+| `.github/instructions/aws-infrastructure.instructions.md` | Lambda, S3 and email-service guidelines |
+| `.github/instructions/security-and-owasp.instructions.md` | Secure-coding rules |
+
+## Domain Quick Reference
+
+| Domain | Skill | Key Paths |
+|--------|-------|-----------|
+| Widget UI and styling | `frontend-design`, `accessibility-standards`, `typescript-best-practices` | `sandbox/src/components/`, `sandbox/src/App.tsx`, `sandbox/src/App.module.css` |
+| Attributes, i18n, currencies | `typescript-best-practices` | `sandbox/src/components/with-props/with-props.tsx`, `sandbox/src/utils/utils.ts`, `sandbox/src/enums.ts` |
+| Payment and email Lambdas | `api-patterns`, `security-hardening` | `lambda/index.mjs`, `lambda_mailer/lambda/index.mjs`, `lambda_mailer/templates/` |
+| Build, lint, test tasks | `nx-workspace` | `nx.json`, `sandbox/project.json`, `sandbox/vite.config.ts` |
+| Unit tests | `vitest-testing`, `testing-workflow` | `sandbox/vite.config.ts` (`test`), `sandbox/tsconfig.spec.json` |
+| Browser checks | `browser-testing` | `sandbox/index.html` at http://localhost:4200/donations-widget/ |
+| Deployment | `deployment-infrastructure` | `package.json` (`deploy:sandbox`), `sandbox/wix.html`, `lambda_mailer/ENV_CONFIGURATION.md`, `lambda_mailer/uploads/` |
+
+## Still to describe
+
+- Which production site(s) embed the widget, and whether the API Gateway above is the production one (the payment Lambda still uses GP webpay's test gateway).
+
+<!-- End of Project Context -->
+````

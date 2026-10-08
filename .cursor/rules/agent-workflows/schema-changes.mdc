@@ -1,0 +1,31 @@
+---
+description: "Workflow: schema-changes"
+alwaysApply: false
+---
+
+<!-- ⚠️ This file is managed by OpenCastle. Edits will be overwritten on update. Customize in the .opencastle/ directory instead. -->
+
+# Workflow: CMS Schema Changes
+
+For a change to the content model: new types or fields, renames, and the queries and pages that use them. The CMS's own syntax and tools are in its skill and in `.opencastle/stack/<cms>-config.md`.
+
+1. **Analyse** (Content Engineer). Read the current schema and the queries the change affects, and check the content already in the CMS: what does a new required field mean for existing documents? Write down the field mapping, new against existing.
+2. **Change the schema** (Content Engineer). Add the types and fields with their validation rules, register them, and run the CMS's own schema check. A rename or a removal ships with a migration — or keeps serving the old field under the new name until one does.
+3. **Update the queries** (Content Engineer or Developer). Every query that reads the changed fields, and the types of their results; test them against real content.
+4. **Integrate** (Developer). Update the pages and components, handling content that lacks the new field; run the tests, lint and build; check the pages in a browser.
+5. **Verify** (Team Lead). The content model behaves in the CMS's editor, old content still renders, and the pages show the new fields.
+
+## Delivery
+
+#### Steps
+
+1. **Commit** to the feature branch, with the tracker issue ID in the messages when there is one.
+2. **Push** it: `git push -u origin <branch>`.
+3. **Open a pull request**, with the body written to a file first so the shell cannot mangle it:
+   ```bash
+   GH_PAGER=cat gh pr create --base main --title "<title>" --body-file /tmp/pr-body.md
+   ```
+4. **Do NOT merge** — a person reviews and merges it.
+5. **Link it** from the tracker issue, when there is one.
+
+Whoever coordinates the work owns delivery: the Team Lead creates the branch before delegating, sub-agents work on that branch, and only the Team Lead pushes and opens the pull request.

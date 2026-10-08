@@ -1,0 +1,31 @@
+---
+description: "Workflow: data-pipeline"
+alwaysApply: false
+---
+
+<!-- ⚠️ This file is managed by OpenCastle. Edits will be overwritten on update. Customize in the .opencastle/ directory instead. -->
+
+# Workflow: Data Pipeline
+
+For crawling, converting and importing data into the project's database or CMS. Project-specific sources, paths and rules: `.opencastle/stack/data-pipeline-config.md`, when there is one, and the **data-engineering** skill.
+
+1. **Analyse the source** (Data Engineer). What it offers, how its fields map to the target schema, how many records, its terms and rate limits, and any scraper the project already has to follow.
+2. **Crawl** (Data Engineer). Raw records to files (NDJSON), with pagination, rate limiting and recovery from errors; log pages visited, records found and errors. Raw data is not committed.
+3. **Process** (Data Engineer). Convert to the target schema, enrich and normalize by the project's rules, and validate every record against the schema; a bad record is skipped and logged with its reason, never dropped silently.
+4. **Validate** (Team Lead). Spot-check 10–20 records by hand, run the validation over the whole set, and check for duplicates of what already exists.
+5. **Import** (Data Engineer). A test batch of 5–10 records first, checked in the target; then the rest, idempotently, so a re-run changes nothing. Report created, updated, skipped and failed — counts that add up.
+
+## Delivery
+
+#### Steps
+
+1. **Commit** to the feature branch, with the tracker issue ID in the messages when there is one.
+2. **Push** it: `git push -u origin <branch>`.
+3. **Open a pull request**, with the body written to a file first so the shell cannot mangle it:
+   ```bash
+   GH_PAGER=cat gh pr create --base main --title "<title>" --body-file /tmp/pr-body.md
+   ```
+4. **Do NOT merge** — a person reviews and merges it.
+5. **Link it** from the tracker issue, when there is one.
+
+Whoever coordinates the work owns delivery: the Team Lead creates the branch before delegating, sub-agents work on that branch, and only the Team Lead pushes and opens the pull request.

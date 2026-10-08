@@ -41,3 +41,20 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# >>> OpenCastle managed (do not edit) >>>
+# Generated assistant config is committed on purpose, so teammates get
+# working rules on clone and `npx opencastle sync --check` can verify it in CI.
+# Only local artefacts are ignored.
+.env
+.opencastle.removed/
+.opencastle.removed.*/
+.opencastle/logs/
+.opencastle/runs/
+.opencastle/worktrees/
+.opencastle/artifacts/
+.opencastle/baselines/
+.opencastle/*.db
+.opencastle/*.db-wal
+.opencastle/*.db-shm
+.opencastle/*.ndjson
+# <<< OpenCastle managed <<<
