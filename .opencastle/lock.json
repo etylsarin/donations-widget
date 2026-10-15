@@ -1,7 +1,7 @@
 {
   "$comment": "Written by opencastle sync — do not edit. Change .opencastle/ (or a baseline) and run sync; opencastle review explains a change.",
   "lockfileVersion": 1,
-  "opencastle": "1.11.0",
+  "opencastle": "1.12.0",
   "targets": [
     "cursor"
   ],
@@ -16,7 +16,7 @@
     {
       "id": "opencastle",
       "kind": "core",
-      "version": "1.11.0"
+      "version": "1.12.0"
     },
     {
       "id": "project",
@@ -81,8 +81,8 @@
     },
     "instructions/general": {
       "from": "opencastle",
-      "sha": "834eb302db86",
-      "tokens": 489
+      "sha": "aa1ff4ee6c68",
+      "tokens": 525
     },
     "instructions/project-context": {
       "from": "project",
@@ -191,8 +191,8 @@
     },
     "skills/self-improvement": {
       "from": "opencastle",
-      "sha": "a841ce833947",
-      "description": "Keeps the team's memory: where what you learned goes (your memory, shared with the team when it is about the project, or a lesson in .opencastle/lessons/), and how lessons are cited, re-verified and …"
+      "sha": "2d5cc5a8d208",
+      "description": "Keeps the team's memory: where what you learned goes (your memory, shared with the team when it is about the project, a lesson in .opencastle/lessons/, or a team skill for a procedure), and how lesso…"
     },
     "skills/seo-patterns": {
       "from": "opencastle",
@@ -287,8 +287,8 @@
     }
   },
   "context": {
-    "tokens": 4731,
-    "instructions": 2522,
-    "index": 2209
+    "tokens": 4786,
+    "instructions": 2558,
+    "index": 2228
   }
 }
